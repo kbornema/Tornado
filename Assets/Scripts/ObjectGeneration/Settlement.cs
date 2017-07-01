@@ -45,13 +45,14 @@ public class Settlement {
             GameObject obj = GameObject.Instantiate(BuildingBP);
 
             Vector3 startPoint= new Vector3(p.Center.x, 1000, p.Center.y);
-            Vector3 Scale = Constants.Instance.MeshObject.transform.localScale;
-            obj.transform.localScale = new Vector3(obj.transform.localScale.x * p.Size.x * 0.5f, obj.transform.localScale.y, obj.transform.localScale.z * p.Size.y * 0.5f);
+            Vector3 Scale = Vector3.one;
+            obj.transform.localScale = new Vector3(obj.transform.localScale.x * p.Size.x * Scale.x, obj.transform.localScale.y * Scale.y, obj.transform.localScale.z * p.Size.y * Scale.z);
 
             obj.transform.SetParent(Root.transform, true);
             RaycastHit hit;
+            int layerMask = 1<<LayerMask.NameToLayer("Ground");
             //Constants.Instance.MeshObject.GetComponent<MeshCollider>().Raycast(ray, out hit, 1000);
-            if (Physics.Raycast(startPoint, -Vector3.up, out hit, 1000.0f))
+            if (Physics.Raycast(startPoint, -Vector3.up, out hit, 1000.0f, layerMask))
             {
 
                 obj.transform.position = hit.point;

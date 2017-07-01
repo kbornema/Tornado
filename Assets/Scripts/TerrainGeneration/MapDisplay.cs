@@ -19,6 +19,7 @@ public class MapDisplay : MonoBehaviour
     public void DrawMesh(MeshData meshData, Texture2D texture2D)
     {
         MeshFilter.sharedMesh = meshData.CreateMesh();
+        MeshFilter.gameObject.GetComponent<MeshCollider>().sharedMesh = MeshFilter.sharedMesh;
         Constants.Instance.UpdateMesh(MeshFilter.gameObject);
         MeshRenderer.sharedMaterial.mainTexture = texture2D;
     }
