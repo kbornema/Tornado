@@ -30,7 +30,7 @@ public class ObjectGenerator : MonoBehaviour {
         if( objects == null)
             objects = new List<GameObject>();
         if (mesh == null)
-            mesh = Mesh.GetComponent<MeshFilter>().mesh;
+            mesh = Mesh.GetComponent<MeshFilter>().sharedMesh;
         if (mapGen == null)
             mapGen = MapGenerator.GetComponent<MapGenerator>();
 
