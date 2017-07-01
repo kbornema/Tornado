@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Security;
 
 using UnityEngine;
 
-public class Statistics : MonoBehaviour {
+public static class Statistics {
 
     public delegate void CountInformation (string code, float value);
     public delegate void StateInformation(string code, float value);
@@ -62,3 +63,4 @@ public class Statistics : MonoBehaviour {
         if (NumberOfObstacleInTornado != null) NumberOfObstacleInTornado.Invoke(code, value);
     }
 }
+
