@@ -135,8 +135,11 @@ public class Tornado : MonoBehaviour
         }
     }
 
-    public void Rotate(float x, float y, float z)
+    public void Rotate(float x, float y, float z, ForceMode mode)
     {
+        //transform.Rotate(x, y, z);
+        //_tornadoRigidbody.AddTorque(x, y, z, mode);
+
         
     }
 
@@ -193,11 +196,39 @@ public class Tornado : MonoBehaviour
         _attractedGameObjects.Add(obj);
     }
 
-    public void ReleaseAllAttractedObjects()
+    public void ReleaseAllObectsForward()
+    {
+        Vector3 forward;
+        Vector3 right;
+
+        GameCamera.Instance.GetMovement(out forward, out right);
+
+
+        for (int i = 0; i < _attractedGameObjects.Count; i++)
+        {
+            _attractedGameObjects[i].SetState(AttractingObject.State.Free);
+
+
+            Vector3 velocity = _attractedGameObjects[i].GetVelocity();
+
+            float velocityForce = velocity.magnitude;
+
+            velocity = forward * velocityForce;
+
+
+            _attractedGameObjects[i].SetVelocity(velocity);
+        }
+
+        _attractedGameObjects.Clear();
+    }
+
+    public void ReleaseAllObjectsVelocity()
     {
         for (int i = 0; i < _attractedGameObjects.Count; i++)
         {
             _attractedGameObjects[i].SetState(AttractingObject.State.Free);
+
+
         }
 
         _attractedGameObjects.Clear();

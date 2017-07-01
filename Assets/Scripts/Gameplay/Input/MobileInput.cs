@@ -4,13 +4,10 @@ using UnityEngine;
 
 
 [System.Serializable]
-public class MobileInput : IInputDevice
+public class MobileInput : AInputDevice
 {
     [SerializeField]
-    private float _maxDeltaPos;
-
-    [SerializeField]
-    private float _speed = 10.0f;
+    private float _maxDeltaPos = 4.0f;
 
     [SerializeField]
     private float _doubleClickInterval = 0.5f;
@@ -20,8 +17,14 @@ public class MobileInput : IInputDevice
     private Vector3 _lastPos;
     private Vector3 _curPos;
 
-    public void Update(Tornado tornado, float deltaTime)
+    private Vector2 _inputVector;
+
+    private bool _isMoving;
+
+    protected override void Update(float deltaTime)
     {
+        _isMoving = false;
+
         if(Input.GetMouseButtonDown(0))
         {
             _lastPos = Input.mousePosition;
@@ -31,7 +34,7 @@ public class MobileInput : IInputDevice
 
             if (Mathf.Abs(curClick - _lastClickTime) < _doubleClickInterval)
             {
-                OnDoubleTap(tornado);
+                OnDoubleTap();
             }
 
             _lastClickTime = curClick;
@@ -39,6 +42,8 @@ public class MobileInput : IInputDevice
 
         else if(Input.GetMouseButton(0))
         {
+            _isMoving = true;
+
             _lastPos = _curPos;
             _curPos = Input.mousePosition;
 
@@ -51,14 +56,22 @@ public class MobileInput : IInputDevice
 
             deltaPos = deltaPos.normalized * deltaMag;
 
-            tornado.Rotate(0.0f, deltaPos.y * Time.deltaTime, 0.0f);
-
-            tornado.AddForce(new Vector3(deltaPos.x, 0.0f, deltaPos.y) * deltaTime * _speed, ForceMode.Impulse);
+            _inputVector = new Vector2(deltaPos.x, deltaPos.y);
         }
     }
 
-    private void OnDoubleTap(Tornado tornado)
+    private void OnDoubleTap()
     {
-        tornado.ReleaseAllAttractedObjects();
+        ReleaseAttractedObjects();
+    }
+
+    protected override Vector2 GetInput()
+    {
+        return _inputVector;
+    }
+
+    protected override bool IsMoving()
+    {
+        return _isMoving;
     }
 }

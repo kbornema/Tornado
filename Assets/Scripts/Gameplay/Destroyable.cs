@@ -7,6 +7,9 @@ public class Destroyable : MonoBehaviour
     private const float DMG_RUMBLE_SCALE = 0.25f;
 
     [SerializeField]
+    private float _pointsOnDestroy = 100.0f;
+
+    [SerializeField]
     private GameObject _root;
 
     private List<AttractingObject> _shakingObjects;
@@ -48,6 +51,8 @@ public class Destroyable : MonoBehaviour
     {
         _curHealth -= dmg;
 
+        //TODO: received damage: through event:
+
         _rumblePower = dmg * DMG_RUMBLE_SCALE;
         _rumbleTime = 0.1f;
 
@@ -60,6 +65,7 @@ public class Destroyable : MonoBehaviour
 
         if(_curHealth <= 0.0f)
         {
+            //TODO: receive points:
             Destroy(gameObject);
         }
     }
@@ -67,14 +73,23 @@ public class Destroyable : MonoBehaviour
     private void OnNextSubObjectDestroyed(Tornado tornado)
     {
         int id = _shakingObjects.Count - 1;
-        //Destroy(_shakingObjects[id]);
 
         AttractingObject curDestroyObj = _shakingObjects[id];
 
         curDestroyObj.transform.SetParent(null);
         _shakingObjects.RemoveAt(id);
 
-        tornado.AddAttractedObject(curDestroyObj);
+        if(tornado)
+        {
+            tornado.AddAttractedObject(curDestroyObj);
+        }
+
+        else
+        {
+            curDestroyObj.SetState(AttractingObject.State.Free);
+            curDestroyObj.AddRandomTorque();
+        }
+        
     }
 
 

@@ -17,40 +17,39 @@ public class TornadoController : MonoBehaviour
     [SerializeField]
     private InputMode _inputMode = InputMode.Both;
 
-    private List<IInputDevice> _deviceInput;
+    private List<AInputDevice> _deviceInput;
 
     private void Start()
     {
-
-        _deviceInput = new List<IInputDevice>();
+        _deviceInput = new List<AInputDevice>();
 
 #if UNITY_EDITOR
 
-    if (_inputMode == InputMode.Mobile || _inputMode == InputMode.Both)
-    {
-        _deviceInput.Add(_mobileInput);
-    }
+        if (_inputMode == InputMode.Mobile || _inputMode == InputMode.Both)
+            AddDevice(_mobileInput);
 
-    if (_inputMode == InputMode.Desktop || _inputMode == InputMode.Both)
-    {
-        _deviceInput.Add(_desktopInput);
-    }
+        if (_inputMode == InputMode.Desktop || _inputMode == InputMode.Both)
+            AddDevice(_desktopInput);
 
+#elif UNITY_STANDALONE
+        AddDevice(_desktopInput);
 #else
-
-    #if UNITY_STANDALONE
-            _deviceInput.Add(_desktopInput);
-    #else
-            _deviceInput.Add(_mobileInput);
-    #endif
+        AddDevice(_mobileInput);
 #endif
+
+    }
+
+    private void AddDevice(AInputDevice device)
+    {
+        device.SetTornado(_tornado);
+        _deviceInput.Add(device);
     }
 
     private void Update()
     {
         for (int i = 0; i < _deviceInput.Count; i++)
         {
-            _deviceInput[i].Update(_tornado, Time.deltaTime);
+            _deviceInput[i].UpdateDevice(Time.deltaTime);
         }
 
     }
