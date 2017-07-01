@@ -135,14 +135,6 @@ public class Tornado : MonoBehaviour
         }
     }
 
-    public void Rotate(float x, float y, float z, ForceMode mode)
-    {
-        //transform.Rotate(x, y, z);
-        //_tornadoRigidbody.AddTorque(x, y, z, mode);
-
-        
-    }
-
     private void UpdateTornadoSegments(TornadoConf conf)
     {
         for (int i = 0; i < _segments.Length; i++)

@@ -343,7 +343,7 @@ Transform:
   m_GameObject: {fileID: 1879364134666658}
   m_LocalRotation: {x: -0, y: -0.38268277, z: -0, w: 0.92387986}
   m_LocalPosition: {x: 3.98, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
   m_Children:
   - {fileID: 4424928381129894}
   - {fileID: 4600486671513848}
@@ -1513,6 +1513,7 @@ MonoBehaviour:
   _dpsVelocity: 10
   _myCollider: {fileID: 64968292310502554}
   _currentState: 0
+  _destroyScale: 0.5
 --- !u!114 &114044687914338860
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1529,6 +1530,7 @@ MonoBehaviour:
   _dpsVelocity: 10
   _myCollider: {fileID: 64897161258314668}
   _currentState: 0
+  _destroyScale: 0.5
 --- !u!114 &114129014207019664
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1545,6 +1547,7 @@ MonoBehaviour:
   _dpsVelocity: 10
   _myCollider: {fileID: 64951522234062570}
   _currentState: 0
+  _destroyScale: 0.5
 --- !u!114 &114190821537607116
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1561,6 +1564,7 @@ MonoBehaviour:
   _dpsVelocity: 10
   _myCollider: {fileID: 64141488805939744}
   _currentState: 0
+  _destroyScale: 0.5
 --- !u!114 &114248096292168020
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1577,6 +1581,7 @@ MonoBehaviour:
   _dpsVelocity: 10
   _myCollider: {fileID: 64191483006996196}
   _currentState: 0
+  _destroyScale: 0.5
 --- !u!114 &114269084216813422
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1589,9 +1594,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pointsOnDestroy: 100
-  _root: {fileID: 1879364134666658}
   _health: 100
   _curHealth: 0
+  _myBody: {fileID: 54524860978476730}
 --- !u!114 &114327075795103978
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1608,6 +1613,7 @@ MonoBehaviour:
   _dpsVelocity: 10
   _myCollider: {fileID: 64834464936495768}
   _currentState: 0
+  _destroyScale: 0.5
 --- !u!114 &114386955623991178
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1624,6 +1630,7 @@ MonoBehaviour:
   _dpsVelocity: 10
   _myCollider: {fileID: 64124894265947786}
   _currentState: 0
+  _destroyScale: 0.5
 --- !u!114 &114555469899691564
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1640,6 +1647,7 @@ MonoBehaviour:
   _dpsVelocity: 10
   _myCollider: {fileID: 64779707370839276}
   _currentState: 0
+  _destroyScale: 0.5
 --- !u!114 &114664530453292156
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1656,6 +1664,7 @@ MonoBehaviour:
   _dpsVelocity: 10
   _myCollider: {fileID: 64223239006189254}
   _currentState: 0
+  _destroyScale: 0.5
 --- !u!114 &114669093009878946
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1672,6 +1681,7 @@ MonoBehaviour:
   _dpsVelocity: 10
   _myCollider: {fileID: 64572885637050156}
   _currentState: 0
+  _destroyScale: 0.5
 --- !u!114 &114713131531274924
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1688,6 +1698,7 @@ MonoBehaviour:
   _dpsVelocity: 10
   _myCollider: {fileID: 64711842600608670}
   _currentState: 0
+  _destroyScale: 0.5
 --- !u!114 &114743665017016142
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1704,6 +1715,7 @@ MonoBehaviour:
   _dpsVelocity: 10
   _myCollider: {fileID: 64614669322735472}
   _currentState: 0
+  _destroyScale: 0.5
 --- !u!114 &114839155136243204
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1720,6 +1732,7 @@ MonoBehaviour:
   _dpsVelocity: 10
   _myCollider: {fileID: 64682933888071230}
   _currentState: 0
+  _destroyScale: 0.5
 --- !u!114 &114863137452912822
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1736,3 +1749,4 @@ MonoBehaviour:
   _dpsVelocity: 10
   _myCollider: {fileID: 64067687385658906}
   _currentState: 0
+  _destroyScale: 0.5

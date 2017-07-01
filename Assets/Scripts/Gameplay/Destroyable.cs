@@ -9,9 +9,6 @@ public class Destroyable : MonoBehaviour
     [SerializeField]
     private float _pointsOnDestroy = 100.0f;
 
-    [SerializeField]
-    private GameObject _root;
-
     private List<AttractingObject> _shakingObjects;
     private Vector3[] _shakingObjectsStartPos;
 
@@ -30,11 +27,18 @@ public class Destroyable : MonoBehaviour
 
     private float _deltaDestroyPercent;
 
-    private bool dead = false;
+    [SerializeField]
+    private Rigidbody _myBody;
 
+    private void Reset()
+    {
+        _myBody = GetComponent<Rigidbody>();
+    }
 
     private void Start()
     {
+        _myBody.isKinematic = true;
+
         _shakingObjects = new List<AttractingObject>(GetComponentsInChildren<AttractingObject>());
 
         _curHealth = _health;
@@ -53,7 +57,7 @@ public class Destroyable : MonoBehaviour
     {
         _curHealth -= dmg;
 
-        Statistics.NotifyDamage("", dmg);
+        //TODO: received damage: through event:
 
         _rumblePower = dmg * DMG_RUMBLE_SCALE;
         _rumbleTime = 0.1f;
@@ -65,22 +69,9 @@ public class Destroyable : MonoBehaviour
             OnNextSubObjectDestroyed(attacker);
         }
 
-        if(!dead && _curHealth <= 0.0f)
+        if(_curHealth <= 0.0f)
         {
-            dead = true;
-            Statistics.NotifyCollectPoints("", _pointsOnDestroy);
-
-            switch (transform.tag)
-            {
-                case "Tree":
-                    Statistics.NotifyDestroyTree("", 1);
-                    break;
-                case "House":
-                    Statistics.NotifyDestroyHouse("", 1);
-                    break;
-
-            }
-            
+            //TODO: receive points:
             Destroy(gameObject);
         }
     }
