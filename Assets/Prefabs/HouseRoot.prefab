@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 4507095105146626}
   - component: {fileID: 33133601408675832}
   - component: {fileID: 23105187627068036}
+  - component: {fileID: 114388826342092812}
+  - component: {fileID: 54419914409002860}
   m_Layer: 0
   m_Name: Roof
   m_TagString: Untagged
@@ -38,6 +40,8 @@ GameObject:
   - component: {fileID: 4187459697872584}
   - component: {fileID: 33619378146941844}
   - component: {fileID: 23199217461350012}
+  - component: {fileID: 114183295552054674}
+  - component: {fileID: 54641556357643558}
   m_Layer: 0
   m_Name: House
   m_TagString: Untagged
@@ -181,6 +185,36 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1647683513782070}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &54419914409002860
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1007649514638420}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!54 &54641556357643558
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1647683513782070}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!65 &65844087257362582
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -193,6 +227,32 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114183295552054674
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1647683513782070}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 969832395a79ad140b51047354ac9348, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rigidBody: {fileID: 54641556357643558}
+  _maxVelocity: 25
+--- !u!114 &114388826342092812
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1007649514638420}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 969832395a79ad140b51047354ac9348, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rigidBody: {fileID: 54419914409002860}
+  _maxVelocity: 25
 --- !u!114 &114401624599059842
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -206,6 +266,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _root: {fileID: 1765467988355710}
   _shakingObjects:
-  - {fileID: 1647683513782070}
-  - {fileID: 1007649514638420}
+  - {fileID: 114183295552054674}
+  - {fileID: 114388826342092812}
   _health: 50
+  _curHealth: 0

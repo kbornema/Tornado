@@ -10,7 +10,6 @@ public class Tornado : MonoBehaviour
     private GameObject[] _segments;
     [SerializeField]
     private GameObject _segmentRoot;
-
     [SerializeField]
     private int _numSegments;
 
@@ -24,14 +23,21 @@ public class Tornado : MonoBehaviour
     private CapsuleCollider _collider;
 
     [SerializeField]
+    private float _movementDampenValue = 4.0f;
+
+    [SerializeField, Range(0.0f, 1.0f)]
+    private float _curConfPercent = 0.0f;
+    [SerializeField]
     private TornadoConf _configurationMin;
     [SerializeField]
     private TornadoConf _configurationMax;
 
     private TornadoConf _configurationCurrent;
 
-    [SerializeField, Range(0.0f, 1.0f)]
-    private float _curConfPercent = 0.0f;
+    [SerializeField]
+    private AttractingParams _attractingParams;
+
+    private List<AttractingObject> _attractedGameObjects = new List<AttractingObject>();
 
     public void SetConfPercent(float percent)
     {
@@ -50,9 +56,6 @@ public class Tornado : MonoBehaviour
     {
         SetConfPercent(_curConfPercent + deltaPercent);
     }
-    
-    [SerializeField]
-    private float _dampenValue;
 
     private Vector3 _velocity;
     private float _lifeTime;
@@ -105,14 +108,39 @@ public class Tornado : MonoBehaviour
 
         UpdateTornadoSegments(_configurationCurrent);
 
+        UpdateAttractedObjects(Time.deltaTime);
+
         Move(Time.deltaTime);
 	}
+
+    private void UpdateAttractedObjects(float deltaTime)
+    {
+        Vector3 center = gameObject.transform.position + new Vector3(0.0f, GetCenterHeight(), 0.0f);
+
+        for (int i = 0; i < _attractedGameObjects.Count; i++)
+        {
+            Vector3 customCenter = center + Random.onUnitSphere * Random.Range(_attractingParams.randomOffsetMin, _attractingParams.randomOffsetMax);
+            AttractingObject obj = _attractedGameObjects[i];
+
+            float distSq = (obj.transform.position - customCenter).sqrMagnitude;
+
+            float inverseDistSq = 1.0f / distSq;
+
+            Vector3 toCenter = customCenter - obj.transform.position;
+
+            float speed = Mathf.Clamp(inverseDistSq * _attractingParams.distScale, _attractingParams.minSpeed, _attractingParams.maxSpeed);
+
+            Vector3 dir = toCenter.normalized * speed;
+
+            obj.AddForce(dir, ForceMode.Impulse);
+        }
+    }
 
     private void Move(float deltaTime)
     {
         gameObject.transform.position += _velocity * deltaTime;
 
-        Vector3 dampenDir = -_velocity * deltaTime * _dampenValue;
+        Vector3 dampenDir = -_velocity * deltaTime * _movementDampenValue;
         _velocity += dampenDir;
     }
 
@@ -155,11 +183,28 @@ public class Tornado : MonoBehaviour
     {
         return _configurationCurrent._topWidth * 0.5f * _colliderScale;
     }
-
-
+    
     public void OnObstacleHit(Destroyable d)
     {
-        d.ReceiveDamage(_configurationCurrent._damagePerSecond * Time.deltaTime);
+        d.ReceiveDamage(_configurationCurrent._damagePerSecond * Time.deltaTime, this);
+    }
+
+    public void AddAttractedObject(AttractingObject obj)
+    {
+        obj.EnableGravity(true);
+
+        _attractedGameObjects.Add(obj);
+
+        Vector3 scale = obj.transform.localScale;
+
+        scale *= 0.5f;
+
+        obj.transform.localScale = scale;
+    }
+
+    public void ReleaseAllAttractedObjects()
+    {
+        _attractedGameObjects.Clear();
     }
 
     [System.Serializable]
@@ -211,6 +256,16 @@ public class Tornado : MonoBehaviour
 
             return new TornadoConf(bottomWidth, topWidth, spacing, cubeHeight, rotationSpeedBottom, rotationSpeedTop, dps, speedFactor);
         }
+    }
 
+    [System.Serializable]
+    public class AttractingParams
+    {
+        public float minSpeed = 1.0f;
+        public float maxSpeed = 10.0f;
+        public float distScale = 10.0f;
+
+        public float randomOffsetMin = 0.25f;
+        public float randomOffsetMax = 0.5f;
     }
 }
