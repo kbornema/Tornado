@@ -15,7 +15,7 @@ public class TornadoController : MonoBehaviour
     private MobileInput _mobileInput;
 
     [SerializeField]
-    private InputMode _mode;
+    private InputMode _inputMode = InputMode.Both;
 
     private List<IInputDevice> _deviceInput;
 
@@ -26,12 +26,12 @@ public class TornadoController : MonoBehaviour
 
 #if UNITY_EDITOR
 
-    if (_mode == InputMode.Mobile || _mode == InputMode.Both)
+    if (_inputMode == InputMode.Mobile || _inputMode == InputMode.Both)
     {
         _deviceInput.Add(_mobileInput);
     }
 
-    if (_mode == InputMode.Desktop || _mode == InputMode.Both)
+    if (_inputMode == InputMode.Desktop || _inputMode == InputMode.Both)
     {
         _deviceInput.Add(_desktopInput);
     }

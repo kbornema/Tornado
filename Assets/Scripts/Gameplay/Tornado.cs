@@ -25,7 +25,7 @@ public class Tornado : MonoBehaviour
     private float _curConfPercent = 0.0f;
 
     [SerializeField]
-    private float _movementDampenValue = 4.0f;
+    private Rigidbody _tornadoRigidbody;
 
     [SerializeField]
     private TornadoConf _configurationMin;
@@ -61,7 +61,6 @@ public class Tornado : MonoBehaviour
         SetConfPercent(_curConfPercent + deltaPercent);
     }
 
-    private Vector3 _velocity;
     private float _lifeTime;
 
     private void CreateSegments()
@@ -80,14 +79,14 @@ public class Tornado : MonoBehaviour
         }
     }
 
-    public void AddForce(Vector3 force)
+    public void AddForce(Vector3 force, ForceMode mode)
     {
-        _velocity += force * _configurationCurrent._speedFactor;
+        _tornadoRigidbody.AddForce(force, mode);
     }
 
-    public void AddForce(Vector3 dir, float scale)
+    public void AddForce(Vector3 dir, float scale, ForceMode mode)
     {
-        AddForce(dir * scale);
+        AddForce(dir * scale, mode);
     }
 	
     void Start()
@@ -108,8 +107,6 @@ public class Tornado : MonoBehaviour
         UpdateTornadoSegments(_configurationCurrent);
 
         UpdateAttractedObjects(Time.deltaTime);
-
-        Move(Time.deltaTime);
 
         if (_energy)
             _energy.UpdateDrain(_configurationCurrent._energyDrainPerSecond);
@@ -138,12 +135,9 @@ public class Tornado : MonoBehaviour
         }
     }
 
-    private void Move(float deltaTime)
+    public void Rotate(float x, float y, float z)
     {
-        gameObject.transform.position += _velocity * deltaTime;
-
-        Vector3 dampenDir = -_velocity * deltaTime * _movementDampenValue;
-        _velocity += dampenDir;
+        
     }
 
     private void UpdateTornadoSegments(TornadoConf conf)
@@ -267,6 +261,4 @@ public class Tornado : MonoBehaviour
         public float randomOffsetMin = 0.25f;
         public float randomOffsetMax = 0.5f;
     }
-
-
 }

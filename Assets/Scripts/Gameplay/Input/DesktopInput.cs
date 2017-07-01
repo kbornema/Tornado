@@ -14,7 +14,7 @@ public class DesktopInput : IInputDevice
     {
         Vector2 moveDir = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
-        tornado.AddForce(new Vector3(moveDir.x, 0.0f, moveDir.y) * deltaTime * _speed);
+        tornado.AddForce(new Vector3(moveDir.x, 0.0f, moveDir.y) * deltaTime * _speed, ForceMode.Impulse);
 
         if (Input.GetKey(KeyCode.Q))
         {

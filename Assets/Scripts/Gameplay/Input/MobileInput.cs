@@ -51,7 +51,9 @@ public class MobileInput : IInputDevice
 
             deltaPos = deltaPos.normalized * deltaMag;
 
-            tornado.AddForce(new Vector3(deltaPos.x, 0.0f, deltaPos.y) * deltaTime * _speed);
+            tornado.Rotate(0.0f, deltaPos.y * Time.deltaTime, 0.0f);
+
+            tornado.AddForce(new Vector3(deltaPos.x, 0.0f, deltaPos.y) * deltaTime * _speed, ForceMode.Impulse);
         }
     }
 
