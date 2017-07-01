@@ -15,6 +15,8 @@ public class ObjectGeneratorEditor : Editor {
         if (GUILayout.Button("Generate"))
         {
             objEditor.GenerateObjects();
+
+
         }
     }
 
