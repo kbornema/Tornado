@@ -935,7 +935,7 @@ MonoBehaviour:
     _rotationSpeedTop: 360
     _damagePerSecond: 10
     _speedFactor: 1
-    _energyDrainPerSecond: 5
+    _energyDrainPerSecond: -1
   _configurationMax:
     _bottomWidth: 0.33
     _topWidth: 1.89

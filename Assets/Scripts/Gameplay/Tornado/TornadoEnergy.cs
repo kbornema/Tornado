@@ -14,6 +14,11 @@ public class TornadoEnergy : MonoBehaviour
 
     public float EnergyPercent { get { return _energy / _energyMax; } }
 
+    private void Awake()
+    {
+        _energy = _energyMax;
+    }
+
     public void AddEnergy(float delta)
     {
         _energy = Mathf.Clamp(_energy + delta, 0.0f, _energyMax);

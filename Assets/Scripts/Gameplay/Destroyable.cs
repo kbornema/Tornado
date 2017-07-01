@@ -9,9 +9,6 @@ public class Destroyable : MonoBehaviour
     [SerializeField]
     private float _pointsOnDestroy = 100.0f;
 
-    [SerializeField]
-    private GameObject _root;
-
     private List<AttractingObject> _shakingObjects;
     private Vector3[] _shakingObjectsStartPos;
 
@@ -30,9 +27,18 @@ public class Destroyable : MonoBehaviour
 
     private float _deltaDestroyPercent;
 
+    [SerializeField]
+    private Rigidbody _myBody;
+
+    private void Reset()
+    {
+        _myBody = GetComponent<Rigidbody>();
+    }
 
     private void Start()
     {
+        _myBody.isKinematic = true;
+
         _shakingObjects = new List<AttractingObject>(GetComponentsInChildren<AttractingObject>());
 
         _curHealth = _health;

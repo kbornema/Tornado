@@ -24,6 +24,9 @@ public class AttractingObject : MonoBehaviour
     private State _currentState = State.OnObstacle;
     public State CurrentState { get { return _currentState; } }
 
+    [SerializeField]
+    private float _destroyScale = 0.5f;
+
     private Vector3 _startScale;
 
     private void Reset()
@@ -46,14 +49,14 @@ public class AttractingObject : MonoBehaviour
             _rigidBody.useGravity = true;
 
             AddRandomTorque(Random.value * 360.0f, ForceMode.Impulse);
-            transform.localScale = _startScale * 0.5f;
+            transform.localScale = _startScale * _destroyScale;
         }
 
         else if(state == State.Free)
         {
             gameObject.layer = LayerMask.NameToLayer("FreeObstacle");
             _rigidBody.useGravity = true;
-            transform.localScale = _startScale * 0.5f;
+            transform.localScale = _startScale * _destroyScale;
         }
 
         else if(state == State.OnObstacle)
