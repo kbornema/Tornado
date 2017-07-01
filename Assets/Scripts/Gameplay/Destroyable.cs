@@ -27,6 +27,8 @@ public class Destroyable : MonoBehaviour
 
     private float _deltaDestroyPercent;
 
+    private bool _dead = false;
+
     [SerializeField]
     private Rigidbody _myBody;
 
@@ -58,7 +60,7 @@ public class Destroyable : MonoBehaviour
     {
         _curHealth -= dmg;
 
-        //TODO: received damage: through event:
+        Statistics.NotifyDamage("", dmg);
 
         _rumblePower = dmg * DMG_RUMBLE_SCALE;
         _rumbleTime = 0.1f;
@@ -70,9 +72,22 @@ public class Destroyable : MonoBehaviour
             OnNextSubObjectDestroyed(attacker);
         }
 
-        if(_curHealth <= 0.0f)
+        if (!_dead && _curHealth <= 0.0f)
         {
-            //TODO: receive points:
+            _dead = true;
+            Statistics.NotifyCollectPoints("", _pointsOnDestroy);
+
+            switch (transform.tag)
+            {
+                case "Tree":
+                    Statistics.NotifyDestroyTree("", 1);
+                    break;
+                case "House":
+                    Statistics.NotifyDestroyHouse("", 1);
+                    break;
+
+            }
+
             Destroy(gameObject);
 
             GameCamera.Instance.Rumble(1.0f, 0.2f);
