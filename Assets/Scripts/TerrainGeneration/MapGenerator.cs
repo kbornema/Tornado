@@ -35,9 +35,12 @@ public class MapGenerator : MonoBehaviour
     void OnEnable()
     {
         menuInfo = FindObjectOfType<MenuGenerator>();
-        seed = menuInfo.SelectedSeed;
-        if (!menuInfo.IsValley)
-            HillZoneMax = HillZoneMax * -1;
+        if (menuInfo != null)
+        {
+            seed = menuInfo.SelectedSeed;
+            if (!menuInfo.IsValley)
+                HillZoneMax = HillZoneMax * -1;
+        }
         GenerateMap();
     }
 
