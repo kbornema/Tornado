@@ -38,7 +38,13 @@ public class MapGenerator : MonoBehaviour
                 {
                     if (currentHeight <= Regions[i].height)
                     {
-                        colorMap[y * MapWidth + x] = Regions[i].color;
+                        float maxRegion = Regions[i].height;
+
+                        float minRegion = Regions[i].height;
+                        if(i!=0)
+                            minRegion = Regions[i - 1].height;
+
+                        colorMap[y * MapWidth + x] = Color.Lerp(i!=0 ? Regions[i-1].color : Regions[i].color, Regions[i].color, (currentHeight - minRegion) / (maxRegion - minRegion));
                         break;
                     }
                 }
