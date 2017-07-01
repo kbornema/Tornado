@@ -13,11 +13,19 @@ public class AttractingObject : MonoBehaviour
     private float _maxVelocity = 15.0f;
 
     [SerializeField]
+    private float _dpsVelocity = 10.0f;
+
+    [SerializeField]
     private Collider _myCollider;
+
+    public Collider MyCollider { get { return _myCollider; } }
 
     [SerializeField]
     private State _currentState = State.OnObstacle;
     public State CurrentState { get { return _currentState; } }
+
+    [SerializeField]
+    private float _destroyScale = 0.5f;
 
     private Vector3 _startScale;
 
@@ -29,33 +37,32 @@ public class AttractingObject : MonoBehaviour
 
     private void Start()
     {
-        _startScale = gameObject.transform.localScale;
+        _startScale = gameObject.transform.lossyScale;
         SetState(State.OnObstacle);
     }
 
     public void SetState(State state)
-    {
+    {   
         if(state == State.Attracted)
         {
             gameObject.layer = LayerMask.NameToLayer("AttractedObstacle");
             _rigidBody.useGravity = true;
-            _myCollider.enabled = true;
 
             AddRandomTorque(Random.value * 360.0f, ForceMode.Impulse);
-            transform.localScale = _startScale * 0.5f;
+            transform.localScale = _startScale * _destroyScale;
         }
 
         else if(state == State.Free)
         {
             gameObject.layer = LayerMask.NameToLayer("FreeObstacle");
-            _myCollider.enabled = true;
+            _rigidBody.useGravity = true;
+            transform.localScale = _startScale * _destroyScale;
         }
 
         else if(state == State.OnObstacle)
         {
             gameObject.layer = LayerMask.NameToLayer("None");
             _rigidBody.useGravity = false;
-            _myCollider.enabled = false;
         }
 
         _currentState = state;
@@ -73,8 +80,46 @@ public class AttractingObject : MonoBehaviour
         }
     }
 
+    public Vector3 GetVelocity()
+    {
+        return _rigidBody.velocity;
+    }
+
+    public void SetVelocity(Vector3 v)
+    {
+        _rigidBody.velocity = v;
+    }
+
+    public void ResetVelocity()
+    {
+        SetVelocity(Vector3.zero);
+    }
+
     public void AddRandomTorque(float force, ForceMode mode)
     {
         _rigidBody.AddTorque(Random.onUnitSphere * force, mode);
     }
+
+    public void AddRandomTorque()
+    {
+        AddRandomTorque(Random.value * 360.0f, ForceMode.Impulse);
+    }
+
+    private void OnCollisionStay(Collision coll)
+    {
+        Destroyable d = coll.collider.GetComponent<Destroyable>();
+
+        if(d)
+        {
+            float scale = 1.0f;
+
+            if (_currentState == State.Attracted)
+                scale = 0.5f;
+
+            float damage = _rigidBody.velocity.magnitude * _dpsVelocity * Time.fixedDeltaTime * scale;
+            d.ReceiveDamage(damage, null);
+        }
+    }
+
+
 }

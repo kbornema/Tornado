@@ -7,7 +7,7 @@ public class Destroyable : MonoBehaviour
     private const float DMG_RUMBLE_SCALE = 0.25f;
 
     [SerializeField]
-    private GameObject _root;
+    private float _pointsOnDestroy = 100.0f;
 
     private List<AttractingObject> _shakingObjects;
     private Vector3[] _shakingObjectsStartPos;
@@ -27,9 +27,21 @@ public class Destroyable : MonoBehaviour
 
     private float _deltaDestroyPercent;
 
+    private bool _dead = false;
+
+    [SerializeField]
+    private Rigidbody _myBody;
+
+    private void Reset()
+    {
+        _myBody = GetComponent<Rigidbody>();
+    }
 
     private void Start()
     {
+        _myBody.isKinematic = true;
+        _myBody.useGravity = false;
+
         _shakingObjects = new List<AttractingObject>(GetComponentsInChildren<AttractingObject>());
 
         _curHealth = _health;
@@ -48,6 +60,8 @@ public class Destroyable : MonoBehaviour
     {
         _curHealth -= dmg;
 
+        Statistics.NotifyDamage("", dmg);
+
         _rumblePower = dmg * DMG_RUMBLE_SCALE;
         _rumbleTime = 0.1f;
 
@@ -58,23 +72,48 @@ public class Destroyable : MonoBehaviour
             OnNextSubObjectDestroyed(attacker);
         }
 
-        if(_curHealth <= 0.0f)
+        if (!_dead && _curHealth <= 0.0f)
         {
+            _dead = true;
+            Statistics.NotifyCollectPoints("", _pointsOnDestroy);
+
+            switch (transform.tag)
+            {
+                case "Tree":
+                    Statistics.NotifyDestroyTree("", 1);
+                    break;
+                case "House":
+                    Statistics.NotifyDestroyHouse("", 1);
+                    break;
+
+            }
+
             Destroy(gameObject);
+
+            GameCamera.Instance.Rumble(1.0f, 0.2f);
         }
     }
 
     private void OnNextSubObjectDestroyed(Tornado tornado)
     {
         int id = _shakingObjects.Count - 1;
-        //Destroy(_shakingObjects[id]);
 
         AttractingObject curDestroyObj = _shakingObjects[id];
 
         curDestroyObj.transform.SetParent(null);
         _shakingObjects.RemoveAt(id);
 
-        tornado.AddAttractedObject(curDestroyObj);
+        if(tornado)
+        {
+            tornado.AddAttractedObject(curDestroyObj);
+        }
+
+        else
+        {
+            curDestroyObj.SetState(AttractingObject.State.Free);
+            curDestroyObj.AddRandomTorque();
+        }
+        
     }
 
 

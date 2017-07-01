@@ -1,14 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Security;
 
 using UnityEngine;
 
-public class Statistics : MonoBehaviour {
+public static class Statistics {
 
     public delegate void CountInformation (string code, float value);
     public delegate void StateInformation(string code, float value);
 
+
+    public static event CountInformation CollectPoints;
     public static event CountInformation CollectObstacle;
     public static event CountInformation ThrowObject;
     public static event CountInformation DestroyObject;
@@ -21,6 +24,10 @@ public class Statistics : MonoBehaviour {
     public static event StateInformation NumberOfObstacleInTornado;
 
 
+    public static void NotifyCollectPoints(string code, float value)
+    {
+        if (CollectPoints != null) CollectPoints.Invoke(code, value);
+    }
     public static void NotifyCollectObstacle(string code, float value)
     {
         if (CollectObstacle != null) CollectObstacle.Invoke(code, value);
@@ -62,3 +69,4 @@ public class Statistics : MonoBehaviour {
         if (NumberOfObstacleInTornado != null) NumberOfObstacleInTornado.Invoke(code, value);
     }
 }
+
