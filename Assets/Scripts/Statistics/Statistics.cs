@@ -10,6 +10,8 @@ public static class Statistics {
     public delegate void CountInformation (string code, float value);
     public delegate void StateInformation(string code, float value);
 
+
+    public static event CountInformation CollectPoints;
     public static event CountInformation CollectObstacle;
     public static event CountInformation ThrowObject;
     public static event CountInformation DestroyObject;
@@ -22,6 +24,10 @@ public static class Statistics {
     public static event StateInformation NumberOfObstacleInTornado;
 
 
+    public static void NotifyCollectPoints(string code, float value)
+    {
+        if (CollectPoints != null) CollectPoints.Invoke(code, value);
+    }
     public static void NotifyCollectObstacle(string code, float value)
     {
         if (CollectObstacle != null) CollectObstacle.Invoke(code, value);

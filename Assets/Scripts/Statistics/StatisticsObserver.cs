@@ -13,7 +13,8 @@ public class StatisticsObserver : MonoBehaviour
     public StatisticsObservable numberOfDestroyObjects;
     public StatisticsObservable numberOfThrownObject;
     public StatisticsObservable numberOfCollectObstacle;
-    
+    public StatisticsObservable points;
+
     public StatisticsObservable numberOfMaximumObstaclesInTornado;
 
     private static bool _started = false;
@@ -28,15 +29,20 @@ public class StatisticsObserver : MonoBehaviour
             Statistics.Damage += Statistics_Damage;
             Statistics.TimeTornadoBigMode += Statistics_TimeTornadoBigMode;
             Statistics.DistanceThrown += Statistics_DistanceThrown;
+            Statistics.CollectPoints += Statistics_CollectPoints;
 
             Statistics.NumberOfObstacleInTornado += Statistics_NumberOfObstacleInTornado;
+    }
+
+    private void Statistics_CollectPoints(string code, float value)
+    {
+        points.Value += value;
     }
 
     private void Statistics_NumberOfObstacleInTornado(string code, float value)
     {
         if (numberOfMaximumObstaclesInTornado.Value < value)
             numberOfMaximumObstaclesInTornado.Value = value;
-        //TODO Evaluate Archievements
     }
 
     private void Statistics_DistanceThrown(string code, float value)
