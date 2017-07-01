@@ -15,8 +15,8 @@ TagManager:
   - 
   - FreeObstacle
   - AttractedObstacle
-  - 
-  - 
+  - TornadoAttractor
+  - Ground
   - 
   - 
   - 

@@ -17,10 +17,6 @@ public class MobileInput : IInputDevice
 
     private float _lastClickTime;
 
-
-
-    //private bool _isSwiping;
-
     private Vector3 _lastPos;
     private Vector3 _curPos;
 
@@ -35,7 +31,7 @@ public class MobileInput : IInputDevice
 
             if (Mathf.Abs(curClick - _lastClickTime) < _doubleClickInterval)
             {
-                tornado.ReleaseAllAttractedObjects();
+                OnDoubleTap(tornado);
             }
 
             _lastClickTime = curClick;
@@ -57,40 +53,10 @@ public class MobileInput : IInputDevice
 
             tornado.AddForce(new Vector3(deltaPos.x, 0.0f, deltaPos.y) * deltaTime * _speed);
         }
+    }
 
-
-        
-
-
-        /*
-        Debug.Log(Input.touchCount);
-
-        if (Input.touchCount == 0)
-        {
-            
-            return;
-        }
-
-        Vector2 deltaPos = Input.GetTouch(0).deltaPosition;
-
-        float deltaMagnitude = deltaPos.magnitude;
-
-        float scale = deltaMagnitude / _maxDeltaPos;
-
-        deltaPos = deltaPos.normalized * scale;
-        
-        tornado.AddForce(new Vector3(deltaPos.x, 0.0f, deltaPos.y));
-        */
-        /*
-        if (Input.GetTouch(0).deltaPosition.sqrMagnitude != 0)
-        {
-            if (_isSwiping == false)
-            {
-                _isSwiping = true;
-                _lastPos = Input.GetTouch(0).position;
-                return;
-            }
-        }
-        */
+    private void OnDoubleTap(Tornado tornado)
+    {
+        tornado.ReleaseAllAttractedObjects();
     }
 }
