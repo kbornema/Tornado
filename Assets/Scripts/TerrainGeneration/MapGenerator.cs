@@ -28,10 +28,11 @@ public class MapGenerator : MonoBehaviour
     public float SaveZoneValue;
     public float HillZoneRadius;
     public float HillZoneMax;
+    public AnimationCurve Curve;
 
     public void GenerateMap()
     {
-        float[,] startNoiseMap = Noise.GenerateNoiseMap(MapWidth, MapHeight, seed, NoiseScale, octaves, persistance, lacunarity, Offset);
+        float[,] startNoiseMap = Noise.GenerateNoiseMap(MapWidth, MapHeight, seed, NoiseScale, octaves, persistance, lacunarity, Offset, Curve);
         float[,] borderNoiseMap = Noise.GenerateBorder(MapWidth, MapHeight, SaveZoneRadius, SaveZoneValue, HillZoneRadius, HillZoneMax);
 
         float[,] noiseMap = Noise.MergeNoiseBorder(startNoiseMap, borderNoiseMap);
