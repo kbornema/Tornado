@@ -30,6 +30,17 @@ public class MapGenerator : MonoBehaviour
     public float HillZoneMax;
     public AnimationCurve Curve;
 
+    private MenuGenerator menuInfo;
+
+    void OnEnable()
+    {
+        menuInfo = FindObjectOfType<MenuGenerator>();
+        seed = menuInfo.SelectedSeed;
+        if (!menuInfo.IsValley)
+            HillZoneMax = HillZoneMax * -1;
+        GenerateMap();
+    }
+
     public void GenerateMap()
     {
         float[,] startNoiseMap = Noise.GenerateNoiseMap(MapWidth, MapHeight, seed, NoiseScale, octaves, persistance, lacunarity, Offset, Curve);
