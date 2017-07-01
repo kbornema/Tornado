@@ -441,6 +441,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1601410878055326, guid: cd8f68df817458f459f7a8e5a34fca14, type: 2}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cd8f68df817458f459f7a8e5a34fca14, type: 2}
   m_IsPrefabParent: 0
@@ -453,8 +457,6 @@ GameObject:
   m_Component:
   - component: {fileID: 442516104}
   - component: {fileID: 442516103}
-  - component: {fileID: 442516102}
-  - component: {fileID: 442516101}
   - component: {fileID: 442516100}
   m_Layer: 0
   m_Name: Main Camera
@@ -465,20 +467,6 @@ GameObject:
   m_IsActive: 1
 --- !u!81 &442516100
 AudioListener:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 442516099}
-  m_Enabled: 1
---- !u!124 &442516101
-Behaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 442516099}
-  m_Enabled: 1
---- !u!92 &442516102
-Behaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -852,7 +840,7 @@ GameObject:
   - component: {fileID: 1548998835}
   - component: {fileID: 1548998834}
   - component: {fileID: 1548998833}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
