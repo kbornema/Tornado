@@ -64,8 +64,7 @@ public class ObjectGenerator : MonoBehaviour {
             }
             while (vertexPos2D.magnitude > mapGen.SaveZoneRadius);
 
-            vertexPos = new Vector3(vertexPos.x * Mesh.transform.localScale.x, vertexPos.y * Mesh.transform.localScale.y + 100, vertexPos.z * Mesh.transform.localScale.z);
-
+            vertexPos = Mesh.transform.TransformPoint(vertexPos);
             GameObject obj = Instantiate(SphereBP);
             obj.transform.position = vertexPos;
 
