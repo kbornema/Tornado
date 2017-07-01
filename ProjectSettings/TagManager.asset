@@ -14,6 +14,8 @@ TagManager:
   - UI
   - 
   - 
+  - FreeObstacle
+  - AttractedObstacle
   - 
   - 
   - 
@@ -35,9 +37,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
+  - None
   m_SortingLayers:
   - name: Default
     uniqueID: 0

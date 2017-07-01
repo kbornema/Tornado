@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[ExecuteInEditMode]
 public class Tornado : MonoBehaviour 
 {
     [SerializeField]
@@ -22,11 +21,12 @@ public class Tornado : MonoBehaviour
     [SerializeField]
     private CapsuleCollider _collider;
 
+    [SerializeField, Range(0.0f, 1.0f)]
+    private float _curConfPercent = 0.0f;
+
     [SerializeField]
     private float _movementDampenValue = 4.0f;
 
-    [SerializeField, Range(0.0f, 1.0f)]
-    private float _curConfPercent = 0.0f;
     [SerializeField]
     private TornadoConf _configurationMin;
     [SerializeField]
@@ -36,6 +36,10 @@ public class Tornado : MonoBehaviour
 
     [SerializeField]
     private AttractingParams _attractingParams;
+
+    [SerializeField]
+    private TornadoEnergy _energy;
+    public TornadoEnergy Energy { get { return _energy; } }
 
     private List<AttractingObject> _attractedGameObjects = new List<AttractingObject>();
 
@@ -60,15 +64,11 @@ public class Tornado : MonoBehaviour
     private Vector3 _velocity;
     private float _lifeTime;
 
-    [ContextMenu("CreateTornado")]
     private void CreateSegments()
     {
         for (int i = 0; i < _segments.Length; i++)
         {
-            if (Application.isPlaying)
-                Destroy(_segments[i]);
-            else
-                DestroyImmediate(_segments[i]);
+            Destroy(_segments[i]);
         }
 
         _segments = new GameObject[_numSegments];
@@ -101,8 +101,7 @@ public class Tornado : MonoBehaviour
         if (_numSegments != _segments.Length)
             CreateSegments();
 
-        if(Application.isPlaying)
-            _lifeTime += Time.deltaTime;
+         _lifeTime += Time.deltaTime;
 
         SetConfPercent(_curConfPercent);
 
@@ -111,6 +110,9 @@ public class Tornado : MonoBehaviour
         UpdateAttractedObjects(Time.deltaTime);
 
         Move(Time.deltaTime);
+
+        if (_energy)
+            _energy.UpdateDrain(_configurationCurrent._energyDrainPerSecond);
 	}
 
     private void UpdateAttractedObjects(float deltaTime)
@@ -191,19 +193,19 @@ public class Tornado : MonoBehaviour
 
     public void AddAttractedObject(AttractingObject obj)
     {
-        obj.EnableGravity(true);
+        Debug.Assert(obj.CurrentState != AttractingObject.State.Attracted);
 
+        obj.SetState(AttractingObject.State.Attracted);
         _attractedGameObjects.Add(obj);
-
-        Vector3 scale = obj.transform.localScale;
-
-        scale *= 0.5f;
-
-        obj.transform.localScale = scale;
     }
 
     public void ReleaseAllAttractedObjects()
     {
+        for (int i = 0; i < _attractedGameObjects.Count; i++)
+        {
+            _attractedGameObjects[i].SetState(AttractingObject.State.Free);
+        }
+
         _attractedGameObjects.Clear();
     }
 
@@ -220,12 +222,13 @@ public class Tornado : MonoBehaviour
         public float _damagePerSecond = 0.0f;
 
         public float _speedFactor = 1.0f;
+        public float _energyDrainPerSecond = 0.0f;
 
         public TornadoConf()
         {
         }
 
-        public TornadoConf(float bottomWidth, float topWidth, float spacing, float cubeHeight, float rotationSpeedBottom, float rotationSpeedTop, float dmgPerSecond, float speedFactor)
+        public TornadoConf(float bottomWidth, float topWidth, float spacing, float cubeHeight, float rotationSpeedBottom, float rotationSpeedTop, float dmgPerSecond, float speedFactor, float energyDrainPerSecond)
         {
             this._bottomWidth = bottomWidth;
             this._topWidth = topWidth;
@@ -235,12 +238,7 @@ public class Tornado : MonoBehaviour
             this._rotationSpeedTop = rotationSpeedTop;
             this._damagePerSecond = dmgPerSecond;
             this._speedFactor = speedFactor;
-        }
-
-        public TornadoConf(TornadoConf copy)
-            : this(copy._bottomWidth, copy._topWidth, copy._spacing, copy._cubeHeight, copy._rotationSpeedBottom, copy._rotationSpeedTop, copy._damagePerSecond, copy._speedFactor)
-        {
-
+            this._energyDrainPerSecond = energyDrainPerSecond;
         }
 
         public static TornadoConf Interpolate(TornadoConf lhs, TornadoConf rhs, float f)
@@ -253,8 +251,9 @@ public class Tornado : MonoBehaviour
             float rotationSpeedTop = Mathf.Lerp(lhs._rotationSpeedTop, rhs._rotationSpeedTop, f);
             float dps = Mathf.Lerp(lhs._damagePerSecond, rhs._damagePerSecond, f);
             float speedFactor = Mathf.Lerp(lhs._speedFactor, rhs._speedFactor, f);
+            float energyDrain = Mathf.Lerp(lhs._energyDrainPerSecond, rhs._energyDrainPerSecond, f);
 
-            return new TornadoConf(bottomWidth, topWidth, spacing, cubeHeight, rotationSpeedBottom, rotationSpeedTop, dps, speedFactor);
+            return new TornadoConf(bottomWidth, topWidth, spacing, cubeHeight, rotationSpeedBottom, rotationSpeedTop, dps, speedFactor, energyDrain);
         }
     }
 
@@ -268,4 +267,6 @@ public class Tornado : MonoBehaviour
         public float randomOffsetMin = 0.25f;
         public float randomOffsetMax = 0.5f;
     }
+
+
 }

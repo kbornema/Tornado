@@ -6,7 +6,7 @@ public class TestScript : MonoBehaviour {
 
     public GameObject cube;
     public GameObject sphere;
-    public GameObject camera;
+//public GameObject camera;
 
     SphereCollider coll;
     float radius;

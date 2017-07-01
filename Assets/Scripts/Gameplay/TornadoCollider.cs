@@ -15,6 +15,15 @@ public class TornadoCollider : MonoBehaviour
         if(d)
         {
             _tornado.OnObstacleHit(d);
+            return;
+        }
+
+        AttractingObject obj = collider.GetComponent<AttractingObject>();
+
+        if (obj && obj.CurrentState != AttractingObject.State.Attracted)
+        {
+            _tornado.AddAttractedObject(obj);
+            return;
         }
 
     }

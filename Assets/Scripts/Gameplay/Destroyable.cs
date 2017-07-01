@@ -9,7 +9,6 @@ public class Destroyable : MonoBehaviour
     [SerializeField]
     private GameObject _root;
 
-    [SerializeField]
     private List<AttractingObject> _shakingObjects;
     private Vector3[] _shakingObjectsStartPos;
 
@@ -31,6 +30,8 @@ public class Destroyable : MonoBehaviour
 
     private void Start()
     {
+        _shakingObjects = new List<AttractingObject>(GetComponentsInChildren<AttractingObject>());
+
         _curHealth = _health;
 
         _deltaDestroyPercent = (1.0f / _shakingObjects.Count);
