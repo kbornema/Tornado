@@ -30,6 +30,8 @@ public class MapGenerator : MonoBehaviour
     public float HillZoneMax;
     public AnimationCurve Curve;
 
+    public MapDisplay display;
+
     private MenuGenerator menuInfo;
 
     void OnEnable()
@@ -40,7 +42,10 @@ public class MapGenerator : MonoBehaviour
             seed = menuInfo.SelectedSeed;
             if (!menuInfo.IsValley)
                 HillZoneMax = HillZoneMax * -1;
+
+            display.MeshFilter.gameObject.transform.localScale = new Vector3(menuInfo.SelectedScaleX, menuInfo.SelectedScaleY, menuInfo.SelectedScaleZ);
         }
+
         GenerateMap();
     }
 
@@ -74,7 +79,6 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
-        MapDisplay display = FindObjectOfType<MapDisplay>();
 
         if(SelectedDrawMode == DrawMode.NoiseMap)
              display.DrawTextureMap(TextureGenerator.TextureFromHeightMap(noiseMap));
