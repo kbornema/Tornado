@@ -13,13 +13,16 @@ public class Achievement
     public StatisticsObservable Observable;
     public float ValueLargerThan;
 
-    public void Evaluate()
+    public bool Evaluate()
     {
-        if (Observable.Value > ValueLargerThan)
+        if (!Reached && Observable.Value > ValueLargerThan)
         {
             Reached = true;
+
             Debug.Log(Name);
+            return true;
         }
+        return false;
     }
 
 }

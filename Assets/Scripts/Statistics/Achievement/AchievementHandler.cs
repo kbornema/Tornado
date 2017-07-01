@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AchievementHandler : MonoBehaviour
 {
+    public AchievementUI AVHandler;
 
     public Achievement[] Achievements;
 
@@ -23,7 +24,11 @@ public class AchievementHandler : MonoBehaviour
 
 	    foreach (var achievement in Achievements)
 	    {
-            achievement.Evaluate();
+	        if (achievement.Evaluate())
+	        {
+                AVHandler.AddAchievement(achievement);
+
+            }
 
         }
 	}

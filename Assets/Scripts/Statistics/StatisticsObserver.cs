@@ -16,18 +16,20 @@ public class StatisticsObserver : MonoBehaviour
     
     public StatisticsObservable numberOfMaximumObstaclesInTornado;
 
+    private static bool _started = false;
+
     void Start () {
-        Statistics.CollectObstacle += Statistics_CollectObstacle;
-        Statistics.ThrowObject += Statistics_ThrowObject;
-        Statistics.DestroyObject += Statistics_DestroyObject;
-        Statistics.DestroyHouse += Statistics_DestroyHouse;
-        Statistics.DestroyTree += Statistics_DestroyTree;
-        Statistics.Damage += Statistics_Damage;
-        Statistics.TimeTornadoBigMode += Statistics_TimeTornadoBigMode;
-        Statistics.DistanceThrown += Statistics_DistanceThrown;
 
-        Statistics.NumberOfObstacleInTornado += Statistics_NumberOfObstacleInTornado;
+            Statistics.CollectObstacle += Statistics_CollectObstacle;
+            Statistics.ThrowObject += Statistics_ThrowObject;
+            Statistics.DestroyObject += Statistics_DestroyObject;
+            Statistics.DestroyHouse += Statistics_DestroyHouse;
+            Statistics.DestroyTree += Statistics_DestroyTree;
+            Statistics.Damage += Statistics_Damage;
+            Statistics.TimeTornadoBigMode += Statistics_TimeTornadoBigMode;
+            Statistics.DistanceThrown += Statistics_DistanceThrown;
 
+            Statistics.NumberOfObstacleInTornado += Statistics_NumberOfObstacleInTornado;
     }
 
     private void Statistics_NumberOfObstacleInTornado(string code, float value)
