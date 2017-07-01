@@ -38,6 +38,7 @@ public class Destroyable : MonoBehaviour
     private void Start()
     {
         _myBody.isKinematic = true;
+        _myBody.useGravity = false;
 
         _shakingObjects = new List<AttractingObject>(GetComponentsInChildren<AttractingObject>());
 
@@ -73,6 +74,8 @@ public class Destroyable : MonoBehaviour
         {
             //TODO: receive points:
             Destroy(gameObject);
+
+            GameCamera.Instance.Rumble(1.0f, 0.2f);
         }
     }
 

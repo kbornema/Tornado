@@ -6,14 +6,14 @@ using UnityEngine;
 public class Tornado : MonoBehaviour 
 {
     [SerializeField]
-    private GameObject[] _segments;
+    private TornadoSegment[] _segments;
     [SerializeField]
     private GameObject _segmentRoot;
     [SerializeField]
     private int _numSegments;
 
     [SerializeField]
-    private GameObject _segmentPrefab;
+    private TornadoSegment _segmentPrefab;
 
     [SerializeField]
     private float _colliderScale = 1.0f;
@@ -70,12 +70,13 @@ public class Tornado : MonoBehaviour
             Destroy(_segments[i]);
         }
 
-        _segments = new GameObject[_numSegments];
+        _segments = new TornadoSegment[_numSegments];
 
         for (int i = 0; i < _numSegments; i++)
         {
-            _segments[i] = Instantiate(_segmentPrefab);
+            _segments[i] = Instantiate(_segmentPrefab.gameObject).GetComponent<TornadoSegment>();
             _segments[i].transform.SetParent(_segmentRoot.transform);
+            _segments[i].transform.localPosition = Vector3.zero;
         }
     }
 
@@ -141,7 +142,7 @@ public class Tornado : MonoBehaviour
         {
             float curHeight = GetHeight(i);
 
-            _segments[i].transform.localPosition = new Vector3(0.0f, curHeight, 0.0f);
+            _segments[i].MeshObj.transform.localPosition = new Vector3(0.0f, curHeight, 0.0f);
             
             float percent = (float)i / (float)_numSegments;
 
@@ -149,9 +150,9 @@ public class Tornado : MonoBehaviour
 
             float curRotation = Mathf.Lerp(conf._rotationSpeedBottom, conf._rotationSpeedTop, percent) * _lifeTime;
 
-            _segments[i].transform.localRotation = Quaternion.Euler(0.0f, curRotation, 0.0f);
+            _segments[i].MeshObj.transform.localRotation = Quaternion.Euler(0.0f, curRotation, 0.0f);
 
-            _segments[i].transform.localScale = new Vector3(curWidth, conf._cubeHeight, curWidth);
+            _segments[i].MeshObj.transform.localScale = new Vector3(curWidth, conf._cubeHeight, curWidth);
         }
     }
 
@@ -258,10 +259,6 @@ public class Tornado : MonoBehaviour
 
         public float _speedFactor = 1.0f;
         public float _energyDrainPerSecond = 0.0f;
-
-        public TornadoConf()
-        {
-        }
 
         public TornadoConf(float bottomWidth, float topWidth, float spacing, float cubeHeight, float rotationSpeedBottom, float rotationSpeedTop, float dmgPerSecond, float speedFactor, float energyDrainPerSecond)
         {

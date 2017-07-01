@@ -17,8 +17,12 @@ public class GameCamera : MonoBehaviour
     public Camera TheCam { get { return _camera; } }
 
     private bool _isFocusing;
-
     private float _curFovTime;
+    private float _rumblePower;
+    private float _rumbleTimeMax;
+
+    private bool _isRumbling;
+    private float _curRumbleTime;
 
     private void Awake()
     {
@@ -36,12 +40,41 @@ public class GameCamera : MonoBehaviour
         transform.LookAt(target);
     }
 
+    public void Rumble(float power, float time)
+    {
+        _rumbleTimeMax = Mathf.Max(_rumbleTimeMax, time);
+        _rumblePower = Mathf.Max(power, _rumblePower);
+        _curRumbleTime = 0.0f;
+
+        if (!_isRumbling)
+        {
+            StartCoroutine(RumbleRoutine());
+        }
+    }
+
+    private IEnumerator RumbleRoutine()
+    {
+        _isRumbling = true;
+
+        while (_curRumbleTime <= _rumbleTimeMax)
+        {
+            gameObject.transform.position += Random.insideUnitSphere * _rumblePower * Random.value;
+
+            _curRumbleTime += Time.deltaTime;
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        _isRumbling = false;
+    }
+
     public void Focus()
     {
         const float FOV_TIME = 0.25f;
         const float FOV_TARGET = 40.0f;
 
         _curFovTime = 0.0f;
+
         if (!_isFocusing)
         {
             StartCoroutine(FocusRoutine(FOV_TARGET, FOV_TIME));
