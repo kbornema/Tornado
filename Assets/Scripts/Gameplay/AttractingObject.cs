@@ -15,8 +15,10 @@ public class AttractingObject : MonoBehaviour
     [SerializeField]
     private float _dpsVelocity = 10.0f;
 
-    //[SerializeField]
-    //private Collider _myCollider;
+    [SerializeField]
+    private Collider _myCollider;
+
+    public Collider MyCollider { get { return _myCollider; } }
 
     [SerializeField]
     private State _currentState = State.OnObstacle;
@@ -27,12 +29,12 @@ public class AttractingObject : MonoBehaviour
     private void Reset()
     {
         _rigidBody = GetComponent<Rigidbody>();
-        //_myCollider = GetComponent<Collider>();
+        _myCollider = GetComponent<Collider>();
     }
 
     private void Start()
     {
-        _startScale = gameObject.transform.localScale;
+        _startScale = gameObject.transform.lossyScale;
         SetState(State.OnObstacle);
     }
 
@@ -106,7 +108,12 @@ public class AttractingObject : MonoBehaviour
 
         if(d)
         {
-            float damage = _rigidBody.velocity.magnitude * _dpsVelocity * Time.fixedDeltaTime;
+            float scale = 1.0f;
+
+            if (_currentState == State.Attracted)
+                scale = 0.5f;
+
+            float damage = _rigidBody.velocity.magnitude * _dpsVelocity * Time.fixedDeltaTime * scale;
             d.ReceiveDamage(damage, null);
         }
     }

@@ -16,7 +16,9 @@ public class GameCamera : MonoBehaviour
     private Camera _camera;
     public Camera TheCam { get { return _camera; } }
 
-    private Vector3 _offset;
+    private bool _isFocusing;
+
+    private float _curFovTime;
 
     private void Awake()
     {
@@ -25,15 +27,49 @@ public class GameCamera : MonoBehaviour
 
     private void Start()
     {
-        _offset = gameObject.transform.position;
+        transform.SetParent(null);
     }
     
     private void LateUpdate()
     {
         Vector3 target = _target.transform.position;
         transform.LookAt(target);
+    }
 
+    public void Focus()
+    {
+        const float FOV_TIME = 0.25f;
+        const float FOV_TARGET = 40.0f;
 
+        _curFovTime = 0.0f;
+        if (!_isFocusing)
+        {
+            StartCoroutine(FocusRoutine(FOV_TARGET, FOV_TIME));
+        }
+    }
+
+    private IEnumerator FocusRoutine(float targetFov, float time)
+    {
+        _isFocusing = true;
+
+        float startFov = _camera.fieldOfView;
+
+        while (_curFovTime < time)
+        {
+            float t = _curFovTime / time;
+
+            float sin = Mathf.Sin(t * Mathf.PI);
+
+            _camera.fieldOfView = Mathf.Lerp(startFov, targetFov, sin);
+
+            _curFovTime += Time.deltaTime;
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        _camera.fieldOfView = startFov;
+
+        _isFocusing = false;
     }
 
     public void GetMovement(out Vector3 forward, out Vector3 right)

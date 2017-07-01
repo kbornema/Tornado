@@ -203,21 +203,23 @@ public class Tornado : MonoBehaviour
 
         GameCamera.Instance.GetMovement(out forward, out right);
 
+        GameCamera.Instance.Focus();
 
         for (int i = 0; i < _attractedGameObjects.Count; i++)
         {
             _attractedGameObjects[i].SetState(AttractingObject.State.Free);
 
-
             Vector3 velocity = _attractedGameObjects[i].GetVelocity();
 
             float velocityForce = velocity.magnitude;
 
-            velocity = forward * velocityForce;
+            velocity = forward * velocityForce * 2.0f;
 
 
             _attractedGameObjects[i].SetVelocity(velocity);
         }
+
+        PreventFromAttractingCollision();
 
         _attractedGameObjects.Clear();
     }
@@ -227,11 +229,27 @@ public class Tornado : MonoBehaviour
         for (int i = 0; i < _attractedGameObjects.Count; i++)
         {
             _attractedGameObjects[i].SetState(AttractingObject.State.Free);
-
-
         }
 
+        PreventFromAttractingCollision();
+
         _attractedGameObjects.Clear();
+    }
+
+    private void PreventFromAttractingCollision()
+    {
+        for (int i = 0; i < _attractedGameObjects.Count; i++)
+        {
+            Physics.IgnoreCollision(_collider, _attractedGameObjects[i].MyCollider, true);
+            StartCoroutine(UnignoreCollision(_collider, _attractedGameObjects[i].MyCollider));
+        }
+    }
+
+    private IEnumerator UnignoreCollision(CapsuleCollider _collider, Collider collider)
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        Physics.IgnoreCollision(_collider, collider, false);
     }
 
     [System.Serializable]
