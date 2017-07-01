@@ -6,8 +6,10 @@ public class ObjectGenerator : MonoBehaviour {
 
     public GameObject SphereBP;
     public GameObject Mesh;
-    Mesh mesh;
+    public GameObject MapGenerator;
 
+    Mesh mesh;
+    MapGenerator mapGen;
 
 
     List<GameObject> objects;
@@ -25,10 +27,12 @@ public class ObjectGenerator : MonoBehaviour {
 
     public void GenerateObjects()
     {
+        if( objects == null)
+            objects = new List<GameObject>();
         if (mesh == null)
-        {
             mesh = Mesh.GetComponent<MeshFilter>().mesh;
-        }
+        if (mapGen == null)
+            mapGen = MapGenerator.GetComponent<MapGenerator>();
 
         PlaceRandomSpheres();
     }
@@ -40,7 +44,6 @@ public class ObjectGenerator : MonoBehaviour {
             for (int i = objects.Count-1; i >= 0; i--)
             {
                 DestroyImmediate(objects[i]);
-                Debug.Log("DESTROYED");
             }
         }
 
@@ -48,9 +51,18 @@ public class ObjectGenerator : MonoBehaviour {
 
         for(int i = 0; i < 10; i++)
         {
-            int randomVertex = Random.Range(0, mesh.vertexCount-1);
+            Vector2 vertexPos2D;
+            Vector3 vertexPos;
+            do
+            {
+                int randomVertex = Random.Range(0, mesh.vertexCount - 1);
 
-            Vector3 vertexPos = mesh.vertices[randomVertex];
+                vertexPos = mesh.vertices[randomVertex];
+
+
+                vertexPos2D = new Vector2(vertexPos.x, vertexPos.z);
+            }
+            while (vertexPos2D.magnitude > mapGen.SaveZoneRadius);
 
             vertexPos = new Vector3(vertexPos.x * Mesh.transform.localScale.x, vertexPos.y * Mesh.transform.localScale.y + 100, vertexPos.z * Mesh.transform.localScale.z);
 
@@ -58,8 +70,6 @@ public class ObjectGenerator : MonoBehaviour {
             obj.transform.position = vertexPos;
 
             objects.Add(obj);
-
-            Debug.Log("Count: " + objects.Count);
         }
     }
 }
