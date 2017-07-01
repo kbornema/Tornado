@@ -12,6 +12,13 @@ public class MobileInput : IInputDevice
     [SerializeField]
     private float _speed = 10.0f;
 
+    [SerializeField]
+    private float _doubleClickInterval = 0.5f;
+
+    private float _lastClickTime;
+
+
+
     //private bool _isSwiping;
 
     private Vector3 _lastPos;
@@ -23,6 +30,15 @@ public class MobileInput : IInputDevice
         {
             _lastPos = Input.mousePosition;
             _curPos = _lastPos;
+
+            float curClick = Time.time;
+
+            if (Mathf.Abs(curClick - _lastClickTime) < _doubleClickInterval)
+            {
+                tornado.ReleaseAllAttractedObjects();
+            }
+
+            _lastClickTime = curClick;
         }
 
         else if(Input.GetMouseButton(0))
@@ -42,6 +58,8 @@ public class MobileInput : IInputDevice
             tornado.AddForce(new Vector3(deltaPos.x, 0.0f, deltaPos.y) * deltaTime * _speed);
         }
 
+
+        
 
 
         /*

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AttractingObject : MonoBehaviour 
 {
-    //public enum FordeMode { UseMass, NoMass }
+    public enum State { OnObstacle, Attracted, Free }
 
     [SerializeField]
     private Rigidbody _rigidBody;
@@ -12,9 +12,53 @@ public class AttractingObject : MonoBehaviour
     [SerializeField]
     private float _maxVelocity = 15.0f;
 
-    public void EnableGravity(bool val)
+    [SerializeField]
+    private Collider _myCollider;
+
+    [SerializeField]
+    private State _currentState = State.OnObstacle;
+    public State CurrentState { get { return _currentState; } }
+
+    private Vector3 _startScale;
+
+    private void Reset()
     {
-        _rigidBody.useGravity = val;
+        _rigidBody = GetComponent<Rigidbody>();
+        _myCollider = GetComponent<Collider>();
+    }
+
+    private void Start()
+    {
+        _startScale = gameObject.transform.localScale;
+        SetState(State.OnObstacle);
+    }
+
+    public void SetState(State state)
+    {
+        if(state == State.Attracted)
+        {
+            gameObject.layer = LayerMask.NameToLayer("AttractedObstacle");
+            _rigidBody.useGravity = true;
+            _myCollider.enabled = true;
+
+            AddRandomTorque(Random.value * 360.0f, ForceMode.Impulse);
+            transform.localScale = _startScale * 0.5f;
+        }
+
+        else if(state == State.Free)
+        {
+            gameObject.layer = LayerMask.NameToLayer("FreeObstacle");
+            _myCollider.enabled = true;
+        }
+
+        else if(state == State.OnObstacle)
+        {
+            gameObject.layer = LayerMask.NameToLayer("None");
+            _rigidBody.useGravity = false;
+            _myCollider.enabled = false;
+        }
+
+        _currentState = state;
     }
 
     public void AddForce(Vector3 dir, ForceMode forceMode)
@@ -27,5 +71,10 @@ public class AttractingObject : MonoBehaviour
         {
             _rigidBody.velocity = _rigidBody.velocity.normalized * _maxVelocity;
         }
+    }
+
+    public void AddRandomTorque(float force, ForceMode mode)
+    {
+        _rigidBody.AddTorque(Random.onUnitSphere * force, mode);
     }
 }

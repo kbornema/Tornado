@@ -23,7 +23,8 @@ GameObject:
   - component: {fileID: 23105187627068036}
   - component: {fileID: 114388826342092812}
   - component: {fileID: 54419914409002860}
-  m_Layer: 0
+  - component: {fileID: 64999098190279808}
+  m_Layer: 8
   m_Name: Roof
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +43,8 @@ GameObject:
   - component: {fileID: 23199217461350012}
   - component: {fileID: 114183295552054674}
   - component: {fileID: 54641556357643558}
-  m_Layer: 0
+  - component: {fileID: 65453924814273016}
+  m_Layer: 8
   m_Name: House
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -215,6 +217,32 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!64 &64999098190279808
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1007649514638420}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 1
+  m_InflateMesh: 0
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: fdc6cd4e538630341a078d2aefbe0e91, type: 3}
+--- !u!65 &65453924814273016
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1647683513782070}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65844087257362582
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -226,33 +254,37 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!114 &114183295552054674
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1647683513782070}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 969832395a79ad140b51047354ac9348, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidBody: {fileID: 54641556357643558}
   _maxVelocity: 25
+  _myCollider: {fileID: 65453924814273016}
+  _currentState: 0
 --- !u!114 &114388826342092812
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1007649514638420}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 969832395a79ad140b51047354ac9348, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidBody: {fileID: 54419914409002860}
   _maxVelocity: 25
+  _myCollider: {fileID: 64999098190279808}
+  _currentState: 0
 --- !u!114 &114401624599059842
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -265,8 +297,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _root: {fileID: 1765467988355710}
-  _shakingObjects:
-  - {fileID: 114183295552054674}
-  - {fileID: 114388826342092812}
   _health: 50
   _curHealth: 0
