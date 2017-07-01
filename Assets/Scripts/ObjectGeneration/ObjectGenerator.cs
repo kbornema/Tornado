@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class ObjectGenerator : MonoBehaviour {
 
-    public GameObject SphereBP;
+    public Vector3 Scale;
+
+    public GameObject HouseBP;
+    public GameObject ObjectRoot;
     public GameObject Mesh;
     public GameObject MapGenerator;
 
@@ -35,21 +38,18 @@ public class ObjectGenerator : MonoBehaviour {
             mapGen = MapGenerator.GetComponent<MapGenerator>();
 
         PlaceRandomSpheres();
+
+        
     }
 
     public void PlaceRandomSpheres()
     {
-        if (objects != null && objects.Count > 0)
+        for (int j = ObjectRoot.transform.childCount - 1; j >= 0; j--)
         {
-            for (int i = objects.Count-1; i >= 0; i--)
-            {
-                DestroyImmediate(objects[i]);
-            }
+            DestroyImmediate(ObjectRoot.transform.GetChild(j).gameObject);
         }
 
-        objects.Clear();
-
-        for(int i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++)
         {
             Vector2 vertexPos2D;
             Vector3 vertexPos;
@@ -65,10 +65,18 @@ public class ObjectGenerator : MonoBehaviour {
             while (vertexPos2D.magnitude > mapGen.SaveZoneRadius);
 
             vertexPos = Mesh.transform.TransformPoint(vertexPos);
-            GameObject obj = Instantiate(SphereBP);
-            obj.transform.position = vertexPos;
+            /*
+                        GameObject obj = Instantiate(HouseBP);
 
-            objects.Add(obj);
+                        obj.transform.localScale = new Vector3(obj.transform.localScale.x * Scale.x, obj.transform.localScale.y * Scale.y, obj.transform.localScale.z * Scale.z);
+                        obj.transform.position = vertexPos;
+
+                        obj.transform.parent = ObjectRoot.transform;
+
+                        objects.Add(obj);
+            */
+
+            Settlement settlement = new Settlement(new Vector2(vertexPos.x, vertexPos.z), new Vector2(10, 8), HouseBP, ObjectRoot);
         }
     }
 }
