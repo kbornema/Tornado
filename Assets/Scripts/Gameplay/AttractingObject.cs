@@ -42,6 +42,7 @@ public class AttractingObject : MonoBehaviour
         _startMaxVelocity = _maxVelocity;
         _startScale = gameObject.transform.lossyScale;
         SetState(State.OnObstacle);
+        enabled = false;
     }
 
     public void SetTornadoScale(float scale)
@@ -58,6 +59,9 @@ public class AttractingObject : MonoBehaviour
 
             AddRandomTorque(Random.value * 360.0f, ForceMode.Impulse);
             transform.localScale = _startScale * _destroyScale;
+
+            if (!enabled)
+                enabled = true;
         }
 
         else if(state == State.Free)
@@ -65,6 +69,9 @@ public class AttractingObject : MonoBehaviour
             gameObject.layer = LayerMask.NameToLayer("FreeObstacle");
             _rigidBody.useGravity = true;
             transform.localScale = _startScale * _destroyScale;
+
+            if (!enabled)
+                enabled = true;
         }
 
         else if(state == State.OnObstacle)

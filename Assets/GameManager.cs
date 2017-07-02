@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GenerationSettings : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
-    public static GenerationSettings Instance { get; private set; }
+    public static GameManager Instance { get; private set; }
 
     public bool isValley = false;
 
@@ -17,6 +17,8 @@ public class GenerationSettings : MonoBehaviour
 
     private void Awake()
     {
+        Application.targetFrameRate = 30;
+
         if (Instance && Instance != this)
         {
             Destroy(gameObject);

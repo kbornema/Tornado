@@ -37,8 +37,8 @@ public class MenuGenerator : MonoBehaviour
         if(Toggle)
             isValley = Toggle.isOn;
 
-        GenerationSettings.Instance.seed = selectedSeed;
-        GenerationSettings.Instance.isValley = isValley;
+        GameManager.Instance.seed = selectedSeed;
+        GameManager.Instance.isValley = isValley;
 
         if (string.IsNullOrEmpty(Scene.text))
         {
