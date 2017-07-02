@@ -9,12 +9,14 @@ public class Destroyable : MonoBehaviour
     [SerializeField]
     private float _pointsOnDestroy = 100.0f;
 
+    [SerializeField]
+    private float _energyOnDestroy = 5.0f;
+
     private List<AttractingObject> _shakingObjects;
     private Vector3[] _shakingObjectsStartPos;
 
     [SerializeField]
     private float _health = 100.0f;
-
     [SerializeField]
     private float _curHealth = 0.0f;
 
@@ -58,6 +60,9 @@ public class Destroyable : MonoBehaviour
 
     public void ReceiveDamage(float dmg, Tornado attacker)
     {
+        if (dmg == float.NaN || float.IsInfinity(dmg) || dmg == 0.0f)
+            return;
+
         _curHealth -= dmg;
 
         Statistics.NotifyDamage("", dmg);
@@ -86,6 +91,11 @@ public class Destroyable : MonoBehaviour
                     Statistics.NotifyDestroyHouse("", 1);
                     break;
 
+            }
+
+            if(attacker && attacker.Energy)
+            {
+                attacker.Energy.AddEnergy(_energyOnDestroy);
             }
 
             Destroy(gameObject);

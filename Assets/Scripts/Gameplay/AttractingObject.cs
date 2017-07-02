@@ -12,6 +12,8 @@ public class AttractingObject : MonoBehaviour
     [SerializeField]
     private float _maxVelocity = 15.0f;
 
+    private float _startMaxVelocity;
+
     [SerializeField]
     private float _dpsVelocity = 10.0f;
 
@@ -37,8 +39,14 @@ public class AttractingObject : MonoBehaviour
 
     private void Start()
     {
+        _startMaxVelocity = _maxVelocity;
         _startScale = gameObject.transform.lossyScale;
         SetState(State.OnObstacle);
+    }
+
+    public void SetTornadoScale(float scale)
+    {
+        _maxVelocity = _startMaxVelocity * scale;
     }
 
     public void SetState(State state)
@@ -70,6 +78,14 @@ public class AttractingObject : MonoBehaviour
 
     public void AddForce(Vector3 dir, ForceMode forceMode)
     {
+        float sqrMag = dir.sqrMagnitude;
+        if (sqrMag == float.NaN || sqrMag == float.PositiveInfinity || sqrMag == float.NegativeInfinity)
+        {
+            
+            Debug.LogWarning("Vector3 is NAN!!");
+            return;
+        }
+
         _rigidBody.AddForce(dir, forceMode);
 
         float velocity = _rigidBody.velocity.magnitude;

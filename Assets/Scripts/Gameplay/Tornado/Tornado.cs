@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+[ExecuteInEditMode]
 public class Tornado : MonoBehaviour 
 {
     [SerializeField]
@@ -19,7 +20,14 @@ public class Tornado : MonoBehaviour
     private float _colliderScale = 1.0f;
 
     [SerializeField]
-    private CapsuleCollider _collider;
+    private SphereCollider _physicalCollider;
+
+    [SerializeField]
+    private CapsuleCollider _attractionCollider;
+
+    [SerializeField]
+    private CharacterController _characterController;
+    private Vector3 _characterControllerMovement;
 
     [SerializeField, Range(0.0f, 1.0f)]
     private float _curConfPercent = 0.0f;
@@ -50,16 +58,35 @@ public class Tornado : MonoBehaviour
         _curConfPercent = percent;
         _configurationCurrent = TornadoConf.Interpolate(_configurationMin, _configurationMax, percent);
 
-        _collider.center = new Vector3(0.0f, GetCenterHeight(), 0.0f);
-        _collider.height = GetTotalHeight();
+        _attractionCollider.center = new Vector3(0.0f, GetCenterHeight(false), 0.0f);
+        _attractionCollider.height = GetTotalHeight();
+        _attractionCollider.radius = GetCurrentRadius();
 
-        _collider.radius = GetCurrentRadius(); 
+
+        if (_physicalCollider)
+        {
+            _physicalCollider.radius = GetCurrentRadius();
+            _physicalCollider.center = new Vector3(0.0f, _physicalCollider.radius, 0.0f);
+
+        }
+
+        if(_characterController)
+        {
+            _characterController.center = _attractionCollider.center;
+            _characterController.height = _attractionCollider.height;
+            _characterController.radius = _attractionCollider.radius;
+        }
+
+        float scale = _configurationCurrent._totalScale;
+        gameObject.transform.localScale = new Vector3(scale, scale, scale);
     }
 
+    /*
     public void ChangeConfPercent(float deltaPercent)
     {
         SetConfPercent(_curConfPercent + deltaPercent);
     }
+    */
 
     private float _lifeTime;
 
@@ -67,7 +94,10 @@ public class Tornado : MonoBehaviour
     {
         for (int i = 0; i < _segments.Length; i++)
         {
-            Destroy(_segments[i]);
+            if (Application.isPlaying)
+                Destroy(_segments[i].gameObject);
+            else
+                DestroyImmediate(_segments[i].gameObject);
         }
 
         _segments = new TornadoSegment[_numSegments];
@@ -82,7 +112,15 @@ public class Tornado : MonoBehaviour
 
     public void AddForce(Vector3 force, ForceMode mode)
     {
-        _tornadoRigidbody.AddForce(force, mode);
+
+        if(_tornadoRigidbody)
+            _tornadoRigidbody.AddForce(force, mode);
+
+        if (_characterController)
+        {
+            _characterControllerMovement += force;
+        }
+           
     }
 
     public void AddForce(Vector3 dir, float scale, ForceMode mode)
@@ -101,25 +139,39 @@ public class Tornado : MonoBehaviour
         if (_numSegments != _segments.Length)
             CreateSegments();
 
-         _lifeTime += Time.deltaTime;
+        if(Application.isPlaying)
+            _lifeTime += Time.deltaTime;
 
-        SetConfPercent(_curConfPercent);
+        SetConfPercent(_energy.EnergyPercent);
 
         UpdateTornadoSegments(_configurationCurrent);
 
         UpdateAttractedObjects(Time.deltaTime);
 
-        if (_energy)
+
+
+
+
+        //Debug.DrawRay(gameObject.transform.position, GetProjectedMovement() * 100.0f, Color.black, 100.0f);
+
+
+        if (_energy && Application.isPlaying)
             _energy.UpdateDrain(_configurationCurrent._energyDrainPerSecond);
+
+        if (_characterController)
+        {
+            _characterController.SimpleMove(_characterControllerMovement);
+        }
 	}
+
 
     private void UpdateAttractedObjects(float deltaTime)
     {
-        Vector3 center = gameObject.transform.position + new Vector3(0.0f, GetCenterHeight(), 0.0f);
+        Vector3 center = gameObject.transform.position + new Vector3(0.0f, GetCenterHeight(true), 0.0f);
 
         for (int i = 0; i < _attractedGameObjects.Count; i++)
         {
-            Vector3 customCenter = center + Random.onUnitSphere * Random.Range(_attractingParams.randomOffsetMin, _attractingParams.randomOffsetMax);
+            Vector3 customCenter = center + Random.onUnitSphere * Random.Range(_attractingParams.randomOffsetMin, _attractingParams.randomOffsetMax) * transform.localScale.y;
             AttractingObject obj = _attractedGameObjects[i];
 
             float distSq = (obj.transform.position - customCenter).sqrMagnitude;
@@ -128,7 +180,7 @@ public class Tornado : MonoBehaviour
 
             Vector3 toCenter = customCenter - obj.transform.position;
 
-            float speed = Mathf.Clamp(inverseDistSq * _attractingParams.distScale, _attractingParams.minSpeed, _attractingParams.maxSpeed);
+            float speed = Mathf.Clamp(inverseDistSq * _attractingParams.distScale, _attractingParams.minSpeed, _attractingParams.maxSpeed) * transform.localScale.y;
 
             Vector3 dir = toCenter.normalized * speed;
 
@@ -166,9 +218,14 @@ public class Tornado : MonoBehaviour
         return GetHeight(_numSegments);
     }
 
-    public float GetCenterHeight()
+    public float GetCenterHeight(bool worldScaled)
     {
-        return GetTotalHeight() * 0.5f;
+        float scale = 1.0f;
+
+        if (worldScaled)
+            scale = transform.localScale.y;
+
+        return GetTotalHeight() * 0.5f * scale;
     }
 
     private float GetCurrentRadius()
@@ -186,6 +243,9 @@ public class Tornado : MonoBehaviour
         Debug.Assert(obj.CurrentState != AttractingObject.State.Attracted);
 
         obj.SetState(AttractingObject.State.Attracted);
+
+        obj.SetTornadoScale(transform.localScale.y);
+        
         _attractedGameObjects.Add(obj);
     }
 
@@ -233,8 +293,8 @@ public class Tornado : MonoBehaviour
     {
         for (int i = 0; i < _attractedGameObjects.Count; i++)
         {
-            Physics.IgnoreCollision(_collider, _attractedGameObjects[i].MyCollider, true);
-            StartCoroutine(UnignoreCollision(_collider, _attractedGameObjects[i].MyCollider));
+            Physics.IgnoreCollision(_attractionCollider, _attractedGameObjects[i].MyCollider, true);
+            StartCoroutine(UnignoreCollision(_attractionCollider, _attractedGameObjects[i].MyCollider));
         }
     }
 
@@ -260,7 +320,9 @@ public class Tornado : MonoBehaviour
         public float _speedFactor = 1.0f;
         public float _energyDrainPerSecond = 0.0f;
 
-        public TornadoConf(float bottomWidth, float topWidth, float spacing, float cubeHeight, float rotationSpeedBottom, float rotationSpeedTop, float dmgPerSecond, float speedFactor, float energyDrainPerSecond)
+        public float _totalScale = 1.0f;
+
+        public TornadoConf(float bottomWidth, float topWidth, float spacing, float cubeHeight, float rotationSpeedBottom, float rotationSpeedTop, float dmgPerSecond, float speedFactor, float energyDrainPerSecond, float totalScale)
         {
             this._bottomWidth = bottomWidth;
             this._topWidth = topWidth;
@@ -271,6 +333,7 @@ public class Tornado : MonoBehaviour
             this._damagePerSecond = dmgPerSecond;
             this._speedFactor = speedFactor;
             this._energyDrainPerSecond = energyDrainPerSecond;
+            this._totalScale = totalScale;
         }
 
         public static TornadoConf Interpolate(TornadoConf lhs, TornadoConf rhs, float f)
@@ -284,8 +347,9 @@ public class Tornado : MonoBehaviour
             float dps = Mathf.Lerp(lhs._damagePerSecond, rhs._damagePerSecond, f);
             float speedFactor = Mathf.Lerp(lhs._speedFactor, rhs._speedFactor, f);
             float energyDrain = Mathf.Lerp(lhs._energyDrainPerSecond, rhs._energyDrainPerSecond, f);
+            float totalScale = Mathf.Lerp(lhs._totalScale, rhs._totalScale, f);
 
-            return new TornadoConf(bottomWidth, topWidth, spacing, cubeHeight, rotationSpeedBottom, rotationSpeedTop, dps, speedFactor, energyDrain);
+            return new TornadoConf(bottomWidth, topWidth, spacing, cubeHeight, rotationSpeedBottom, rotationSpeedTop, dps, speedFactor, energyDrain, totalScale);
         }
     }
 
@@ -298,5 +362,27 @@ public class Tornado : MonoBehaviour
 
         public float randomOffsetMin = 0.25f;
         public float randomOffsetMax = 0.5f;
+    }
+
+    public float GetVelocityLength()
+    {
+        return GetVelocity().magnitude;
+    }
+
+    public Vector3 GetVelocity()
+    {
+        if (_characterController)
+        {
+            return _characterController.velocity;
+        }
+
+        else if(_tornadoRigidbody)
+            return _tornadoRigidbody.velocity;
+
+        else
+        {
+            Debug.Assert(false);
+            return Vector3.zero;
+        }
     }
 }

@@ -16,6 +16,11 @@ public class GameCamera : MonoBehaviour
     private Camera _camera;
     public Camera TheCam { get { return _camera; } }
 
+
+    private Vector3 curPosVelocity;
+    private Vector3 _localOffset;
+    private Vector3 _targetPos;
+
     private bool _isFocusing;
     private float _curFovTime;
     private float _rumblePower;
@@ -27,6 +32,8 @@ public class GameCamera : MonoBehaviour
     private void Awake()
     {
         _instance = this;
+
+        _localOffset = transform.localPosition;
     }
 
     private void Start()
@@ -36,8 +43,50 @@ public class GameCamera : MonoBehaviour
     
     private void LateUpdate()
     {
-        Vector3 target = _target.transform.position;
-        transform.LookAt(target);
+
+        Vector3 curVelocity = _target.GetVelocity();
+
+        if(curVelocity.magnitude > 1.0f)
+        {
+            Vector3 projectedDirection = Util.GetVectorPlaneProjection(curVelocity.normalized, Vector3.up);
+
+            float mag = projectedDirection.magnitude;
+
+            if (mag > 0.0f)
+            {
+
+                //print(projectedDirection + " -> " + mag);
+
+                Vector3 globalOffset = Quaternion.LookRotation(projectedDirection, Vector3.up) * (_localOffset * _target.transform.localScale.y * _target.transform.localScale.y);
+
+                _targetPos = GetTargetPos() + globalOffset;
+
+
+                
+
+                //Debug.DrawLine(_target.transform.position, _target.transform.position + projectedDirection, Color.black, Time.deltaTime, false);
+            }
+        }
+
+
+
+
+
+        transform.position = Vector3.SmoothDamp(transform.position, _targetPos, ref curPosVelocity, 1.0f);
+
+        LookAtTarget();
+    }
+
+    private Vector3 GetTargetPos()
+    {
+        Vector3 target = _target.transform.position + new Vector3(0.0f, _target.GetCenterHeight(true), 0.0f);
+        return target;
+    }
+
+    private void LookAtTarget()
+    {
+
+        transform.LookAt(GetTargetPos(), Vector3.up);
     }
 
     public void Rumble(float power, float time)
