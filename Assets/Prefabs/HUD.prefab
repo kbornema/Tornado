@@ -395,7 +395,7 @@ GameObject:
   - component: {fileID: 4426975246149004}
   - component: {fileID: 114497101694994416}
   m_Layer: 0
-  m_Name: Points
+  m_Name: PointToCollect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -497,6 +497,22 @@ GameObject:
   - component: {fileID: 114596143985686992}
   m_Layer: 5
   m_Name: AchievementUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1722533115571000
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4308867219948160}
+  - component: {fileID: 114732067352706904}
+  m_Layer: 0
+  m_Name: Points
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -622,6 +638,7 @@ Transform:
   - {fileID: 4500943588012796}
   - {fileID: 4512298567287868}
   - {fileID: 4962780838455372}
+  - {fileID: 4308867219948160}
   - {fileID: 4426975246149004}
   m_Father: {fileID: 4319663175032228}
   m_RootOrder: 0
@@ -638,6 +655,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4115590963107906}
   m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4308867219948160
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1722533115571000}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4115590963107906}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4319663175032228
 Transform:
@@ -660,11 +690,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1501461693473914}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.000022068023, y: 0, z: 0}
+  m_LocalScale: {x: 0.999998, y: 0.999998, z: 0.999998}
   m_Children: []
   m_Father: {fileID: 4115590963107906}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4430193200900622
 Transform:
@@ -900,8 +930,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70e4ef10b65f8b04c8352a8e16fac2a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _roundSeconds: 4
-  _roundMinute: 0
+  _roundSeconds: 0
+  _roundMinute: 5
   _text: {fileID: 114629776415587874}
   _gameoverScreen: {fileID: 114626871066382700}
 --- !u!114 &114233642918221860
@@ -1081,7 +1111,8 @@ MonoBehaviour:
   numberOfDestroyObjects: {fileID: 114264057732395624}
   numberOfThrownObject: {fileID: 114026504884502410}
   numberOfCollectObstacle: {fileID: 114475181328506750}
-  points: {fileID: 114497101694994416}
+  points: {fileID: 114732067352706904}
+  pointsToAdd: {fileID: 114497101694994416}
   numberOfMaximumObstaclesInTornado: {fileID: 114532565920653280}
 --- !u!114 &114379378762364516
 MonoBehaviour:
@@ -1544,7 +1575,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pointsText: {fileID: 114275755011224380}
-  _pointsObservable: {fileID: 114497101694994416}
+  _pointsObservable: {fileID: 114732067352706904}
   _repeatButton: {fileID: 114624347154895058}
   _mainMenuButton: {fileID: 114449242616574476}
   _nextButton: {fileID: 114115876509404790}
@@ -1736,7 +1767,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97230d5ac8f9ab9459ff6302d4243128, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PointObservable: {fileID: 114497101694994416}
+  PointObservable: {fileID: 114732067352706904}
+  CollectablePointsObservable: {fileID: 114497101694994416}
   Curve:
     serializedVersion: 2
     m_Curve:
@@ -1808,6 +1840,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 'Punkte: 100'
+--- !u!114 &114732067352706904
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1722533115571000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5492306ab63b07b489c254071cfe7b27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Value: 0
 --- !u!114 &114734604523888072
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1933,7 +1977,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _startPosition: {x: 0, y: 0}
-  PointObservable: {fileID: 114497101694994416}
+  PointObservable: {fileID: 114732067352706904}
+  CollectablePointsObservable: {fileID: 114497101694994416}
   BlowUpCurve:
     serializedVersion: 2
     m_Curve:
