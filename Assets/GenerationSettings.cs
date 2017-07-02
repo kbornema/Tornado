@@ -10,6 +10,9 @@ public class GenerationSettings : MonoBehaviour
 
     public int seed = 0;
 
+    public int MinutesOfRound = 0;
+    public int SecondsOfRound = 0;
+
     public void RandomizeSeed()
     {
         seed = Random.Range(0, 10000);

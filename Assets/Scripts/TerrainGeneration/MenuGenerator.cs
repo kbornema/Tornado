@@ -13,6 +13,9 @@ public class MenuGenerator : MonoBehaviour
     public Button Button;
     public Toggle Toggle;
 
+    public InputField Minutes;
+    public InputField Seconds;
+
 
 	// Use this for initialization
 	void Start () 
@@ -36,6 +39,16 @@ public class MenuGenerator : MonoBehaviour
 
         if(Toggle)
             isValley = Toggle.isOn;
+
+
+        int minutes = 5;
+        int.TryParse(Minutes.text, out minutes);
+
+        int seconds = 0;
+        int.TryParse(Seconds.text, out seconds);
+
+        GenerationSettings.Instance.MinutesOfRound = minutes;
+        GenerationSettings.Instance.SecondsOfRound = seconds;
 
         GenerationSettings.Instance.seed = selectedSeed;
         GenerationSettings.Instance.isValley = isValley;
