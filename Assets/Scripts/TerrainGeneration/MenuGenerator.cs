@@ -49,11 +49,11 @@ public class MenuGenerator : MonoBehaviour
         int seconds = 0;
         int.TryParse(Seconds.text, out seconds);
 
-        GenerationSettings.Instance.MinutesOfRound = minutes;
-        GenerationSettings.Instance.SecondsOfRound = seconds;
+        GameManager.Instance.MinutesOfRound = minutes;
+        GameManager.Instance.SecondsOfRound = seconds;
 
-        GenerationSettings.Instance.seed = selectedSeed;
-        GenerationSettings.Instance.isValley = isValley;
+        GameManager.Instance.seed = selectedSeed;
+        GameManager.Instance.isValley = isValley;
 
         if (string.IsNullOrEmpty(Scene.text))
         {
