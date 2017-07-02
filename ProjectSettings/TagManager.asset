@@ -7,6 +7,7 @@ TagManager:
   - LevelManager
   - Tree
   - House
+  - Mesh
   layers:
   - Default
   - TransparentFX
