@@ -135,9 +135,15 @@ public class Destroyable : MonoBehaviour
 
     private void FixedUpdate()
     {
+
         if(_rumbleTime >= 0.0f)
         {
             _rumbleTime -= Time.deltaTime;
+
+            if (float.IsNaN(_rumblePower) || float.IsInfinity(_rumblePower))
+            {
+                return;
+            }
 
             for (int i = 0; i < _shakingObjects.Count; i++)
             {

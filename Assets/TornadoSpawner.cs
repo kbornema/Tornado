@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,8 +12,7 @@ public class TornadoSpawner : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         mesh = Mesh.GetComponent<MeshCollider>().sharedMesh;
-        if (mesh == null)
-            Debug.Log("fuck you");
+        
 
        // int layerMask = 1 << LayerMask.NameToLayer("Ground");
         RaycastHit[] hits = Physics.RaycastAll(new Vector3(0, 100, 0), -Vector3.up, 10000f);
