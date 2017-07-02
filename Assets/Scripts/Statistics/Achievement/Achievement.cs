@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,8 +18,6 @@ public class Achievement
         if (!Reached && Observable.Value > ValueLargerThan)
         {
             Reached = true;
-
-            Debug.Log(Name);
             return true;
         }
         return false;

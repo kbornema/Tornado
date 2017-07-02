@@ -2489,7 +2489,7 @@ GameObject:
   - component: {fileID: 1629776915}
   - component: {fileID: 1629776914}
   m_Layer: 0
-  m_Name: GenerationSettings
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
