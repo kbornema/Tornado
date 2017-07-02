@@ -15,14 +15,8 @@ EditorBuildSettings:
     path: Assets/Scenes/MatthisRealScene.unity
     guid: f641421eabf505140bb811c29c71dab2
   - enabled: 1
-    path: Assets/Scenes/SceneKai.unity
-    guid: 855ce059887b5db458307a86f541ab46
-  - enabled: 0
-    path: 
-    guid: 9a70ac5762c035240941d549ea8f4f05
-  - enabled: 0
-    path: 
-    guid: fc734d25c64fe7e4f9e57115780e4f26
-  - enabled: 1
     path: Assets/Scenes/GameplayScene.unity
-    guid: 5bc3241cf71cf4a48835f06cbc2674b3
+    guid: f2459afd10753d1449a4d28c6e284f44
+  - enabled: 1
+    path: Assets/Scenes/Scene_Kai.unity
+    guid: 00000000000000000000000000000000

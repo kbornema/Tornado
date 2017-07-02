@@ -44,7 +44,7 @@ public class GameOverScreen : MonoBehaviour
 
     private void OnNext()
     {
-        GenerationSettings.Instance.RandomizeSeed();
+        GameManager.Instance.RandomizeSeed();
         OnButton();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }

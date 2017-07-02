@@ -40,9 +40,9 @@ public class MapGenerator : MonoBehaviour
 
         if (menuInfo != null)
         {
-            seed = GenerationSettings.Instance.seed; // menuInfo.SelectedSeed;
+            seed = GameManager.Instance.seed; // menuInfo.SelectedSeed;
 
-            bool isValley = GenerationSettings.Instance.isValley;
+            bool isValley = GameManager.Instance.isValley;
 
             if (!isValley)
                 HillZoneMax = HillZoneMax * -1;

@@ -8,11 +8,6 @@ public class RoundTimer : MonoBehaviour
     public static RoundTimer Instance { get; private set; }
 
     public int RemainingSeconds { get; private set; }
-    
-    [SerializeField]
-    private int _roundSeconds = 30;
-    [SerializeField]
-    private int _roundMinute = 0;
 
     [SerializeField]
     private Text _text;
@@ -26,8 +21,8 @@ public class RoundTimer : MonoBehaviour
 
         if (_gameoverScreen.gameObject.activeSelf)
             _gameoverScreen.gameObject.SetActive(false);
-        
-        StartCoroutine(RoundTimerRoutine(_roundSeconds + _roundMinute * 60));
+
+        StartCoroutine(RoundTimerRoutine(GameManager.Instance.SecondsOfRound + GameManager.Instance.MinutesOfRound * 60));
     }
 	
 	private IEnumerator RoundTimerRoutine(int totalTimeSeconds)
