@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -151,7 +151,11 @@ public class Settlement {
 
             obj.transform.SetParent(Root.transform, true);
             obj.transform.Rotate(0, rotation, 0);
-            obj.transform.localScale = new Vector3(0.3f + p.Size.x / Size.x, 1f, 0.3f + p.Size.y / Size.y);
+
+            Vector3 scale = obj.transform.localScale;
+            scale.Scale(new Vector3(0.3f + p.Size.x / Size.x, 1f, 0.3f + p.Size.y / Size.y));
+
+            obj.transform.localScale = scale;
 
         }
     }
