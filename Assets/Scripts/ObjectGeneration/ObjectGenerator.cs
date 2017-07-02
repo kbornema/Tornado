@@ -45,6 +45,9 @@ public class ObjectGenerator : MonoBehaviour {
     public GameObject Mesh;
     public GameObject MapGenerator;
 
+    public float maxHeight;
+    public float minHeight;
+
     [Range(0, 100)]
     public int SettlementNumeber;
     public AreaSetting[] settings;
@@ -96,10 +99,9 @@ public class ObjectGenerator : MonoBehaviour {
 
                 vertexPos = mesh.vertices[randomVertex];
 
-
                 vertexPos2D = new Vector2(vertexPos.x, vertexPos.z);
             }
-            while (vertexPos2D.magnitude > mapGen.SaveZoneRadius);
+            while (vertexPos2D.magnitude > mapGen.SaveZoneRadius || vertexPos.y * -Mesh.transform.localScale.y > maxHeight || vertexPos.y * -Mesh.transform.localScale.y < minHeight);
 
             vertexPos = Mesh.transform.TransformPoint(vertexPos);
 

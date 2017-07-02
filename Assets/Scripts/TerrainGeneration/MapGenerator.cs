@@ -47,6 +47,8 @@ public class MapGenerator : MonoBehaviour
         }
 
         GenerateMap();
+
+        gameObject.GetComponentInChildren<ObjectGenerator>().GenerateObjects();
     }
 
     public void GenerateMap()
