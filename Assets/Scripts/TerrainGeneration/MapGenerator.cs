@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -34,16 +34,20 @@ public class MapGenerator : MonoBehaviour
 
     private MenuGenerator menuInfo;
 
-    void OnEnable()
+    void Start()
     {
-        menuInfo = FindObjectOfType<MenuGenerator>();
+        //menuInfo = MenuGenerator.Instance;  // FindObjectOfType<MenuGenerator>();
+
         if (menuInfo != null)
         {
-            seed = menuInfo.SelectedSeed;
-            if (!menuInfo.IsValley)
+            seed = GenerationSettings.Instance.seed; // menuInfo.SelectedSeed;
+
+            bool isValley = GenerationSettings.Instance.isValley;
+
+            if (!isValley)
                 HillZoneMax = HillZoneMax * -1;
 
-            display.MeshFilter.gameObject.transform.localScale = new Vector3(menuInfo.SelectedScaleX, menuInfo.SelectedScaleY, menuInfo.SelectedScaleZ);
+            //display.MeshFilter.gameObject.transform.localScale = new Vector3(menuInfo.SelectedScaleX, menuInfo.SelectedScaleY, menuInfo.SelectedScaleZ);
         }
 
         GenerateMap();

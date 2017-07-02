@@ -41,6 +41,8 @@ public class Destroyable : MonoBehaviour
 
     private void Start()
     {
+        enabled = false;
+
         _myBody.isKinematic = true;
         _myBody.useGravity = false;
 
@@ -70,6 +72,9 @@ public class Destroyable : MonoBehaviour
 
         _rumblePower = dmg * DMG_RUMBLE_SCALE;
         _rumbleTime = 0.1f;
+
+        if(!enabled)
+            enabled = true;
 
         float nextDestroyPercent = _deltaDestroyPercent * (_shakingObjects.Count - 1);
 
@@ -143,6 +148,9 @@ public class Destroyable : MonoBehaviour
             
                 _shakingObjects[i].transform.position = _shakingObjectsStartPos[i] + randOffset;
             }
+
+            if (_rumbleTime < 0.0f)
+                enabled = false;
         }
     }
 	
