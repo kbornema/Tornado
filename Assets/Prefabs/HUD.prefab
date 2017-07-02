@@ -930,8 +930,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70e4ef10b65f8b04c8352a8e16fac2a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _roundSeconds: 0
-  _roundMinute: 5
   _text: {fileID: 114629776415587874}
   _gameoverScreen: {fileID: 114626871066382700}
 --- !u!114 &114233642918221860
@@ -1408,21 +1406,78 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AVHandler: {fileID: 114596143985686992}
   Achievements:
-  - Name: Treekiller
-    Description: You destroyed 3 trees!
+  - Name: A house is not enough!
+    Description: You destroyed your first house!
     Reached: 0
-    Observable: {fileID: 114991712676380556}
-    ValueLargerThan: 2
-  - Name: Epic Treekiller
-    Description: You destroyed 10 trees!
+    NumberOfPoints: 100
+    Observable: {fileID: 114445208821149708}
+    ValueLargerThan: 0
+  - Name: A village is not enough!
+    Description: You destroyed 10 houses!
     Reached: 0
-    Observable: {fileID: 114991712676380556}
+    NumberOfPoints: 666
+    Observable: {fileID: 114445208821149708}
     ValueLargerThan: 9
-  - Name: Objectkiller
-    Description: You destroyed 5 Objects
+  - Name: A city is not enough!
+    Description: You destroyed 100 houses!
     Reached: 0
-    Observable: {fileID: 114264057732395624}
+    NumberOfPoints: 1337
+    Observable: {fileID: 114445208821149708}
+    ValueLargerThan: 99
+  - Name: Treekiller
+    Description: You destroyed 5 trees!
+    Reached: 0
+    NumberOfPoints: 150
+    Observable: {fileID: 114991712676380556}
     ValueLargerThan: 4
+  - Name: Climate change is not real!
+    Description: You killed 50 trees!
+    Reached: 0
+    NumberOfPoints: 666
+    Observable: {fileID: 114991712676380556}
+    ValueLargerThan: 49
+  - Name: Deforestation
+    Description: You cleared the land. 80 Trees are dead.
+    Reached: 0
+    NumberOfPoints: 999
+    Observable: {fileID: 114991712676380556}
+    ValueLargerThan: 79
+  - Name: Summer storm
+    Description: You destroyed 20 objects!
+    Reached: 0
+    NumberOfPoints: 100
+    Observable: {fileID: 114264057732395624}
+    ValueLargerThan: 19
+  - Name: Total disaster
+    Description: You destroyed 150 objects!
+    Reached: 0
+    NumberOfPoints: 3000
+    Observable: {fileID: 114264057732395624}
+    ValueLargerThan: 149
+  - Name: Point scorer
+    Description: You have reached 50.000 points
+    Reached: 0
+    NumberOfPoints: 500
+    Observable: {fileID: 114732067352706904}
+    ValueLargerThan: 49999
+  - Name: Are you insured?
+    Description: You did 50000 damage
+    Reached: 0
+    NumberOfPoints: 500
+    Observable: {fileID: 114379378762364516}
+    ValueLargerThan: 49999
+  - Name: Top scorer
+    Description: You have reached 100.000 points!
+    Reached: 0
+    NumberOfPoints: 9999
+    Observable: {fileID: 114379378762364516}
+    ValueLargerThan: 99999
+  - Name: Covfefe
+    Description: Totaly true! Everybody knows it!
+    Reached: 0
+    NumberOfPoints: 1
+    Observable: {fileID: 114379378762364516}
+    ValueLargerThan: 0
 --- !u!114 &114596143985686992
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1447,7 +1502,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.57586205, g: 1, b: 0.58833677, a: 1}
+  m_Color: {r: 0.88235295, g: 0.6229269, b: 0.203854, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
