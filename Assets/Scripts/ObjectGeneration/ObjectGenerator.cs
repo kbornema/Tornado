@@ -82,11 +82,17 @@ public class ObjectGenerator : MonoBehaviour {
 
     public void PlaceRandomSpheres()
     {
-        for (int j = ObjectRoot.transform.childCount - 1; j >= 0; j--)
+        if (Application.isPlaying)
         {
-            for (int i = 0; i < ObjectRoot.transform.GetChild(j).childCount; i++)
-                DestroyImmediate(ObjectRoot.transform.GetChild(j).GetChild(i).gameObject);
-            DestroyImmediate(ObjectRoot.transform.GetChild(j).gameObject);
+            while(ObjectRoot.transform.childCount> 0)
+                Destroy(ObjectRoot.transform.GetChild(0).gameObject);
+        }
+        else
+        {
+            while(ObjectRoot.transform.childCount > 0)
+            {
+                DestroyImmediate(ObjectRoot.transform.GetChild(0).gameObject);
+            }
         }
 
         for (int i = 0; i < SettlementNumeber; i++)

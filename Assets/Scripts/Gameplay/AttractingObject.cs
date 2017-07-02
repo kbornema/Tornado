@@ -37,7 +37,7 @@ public class AttractingObject : MonoBehaviour
         _myCollider = GetComponent<Collider>();
     }
 
-    private void Start()
+    private void Awake()
     {
         _startMaxVelocity = _maxVelocity;
         _startScale = gameObject.transform.lossyScale;

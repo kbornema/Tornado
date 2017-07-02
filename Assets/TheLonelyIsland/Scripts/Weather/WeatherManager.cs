@@ -172,7 +172,7 @@ public class WeatherManager : MonoBehaviour
         if (Mathf.Abs(_rainNum - _rainNumTarget) <= 100 && Mathf.Abs(_ligthIntensity - _ligthIntensityTarget) <= 0.1f   &&   Mathf.Abs(_fogIntensity - _fogIntensityTarget) <= 0.2f)
             _fading = false;
 
-        Debug.Log("Still fading");
+        //Debug.Log("Still fading");
 
     }
 

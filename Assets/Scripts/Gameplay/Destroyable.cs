@@ -153,5 +153,4 @@ public class Destroyable : MonoBehaviour
                 enabled = false;
         }
     }
-	
 }

@@ -169,10 +169,13 @@ public class Tornado : MonoBehaviour
     {
         Vector3 center = gameObject.transform.position + new Vector3(0.0f, GetCenterHeight(true), 0.0f);
 
-        for (int i = 0; i < _attractedGameObjects.Count; i++)
+        for (int i = _attractedGameObjects.Count-1; i >= 0; i--)
         {
+            
             Vector3 customCenter = center + Random.onUnitSphere * Random.Range(_attractingParams.randomOffsetMin, _attractingParams.randomOffsetMax) * transform.localScale.y;
             AttractingObject obj = _attractedGameObjects[i];
+
+            if (obj == null) { _attractedGameObjects.RemoveAt(i); continue; }
 
             float distSq = (obj.transform.position - customCenter).sqrMagnitude;
 
