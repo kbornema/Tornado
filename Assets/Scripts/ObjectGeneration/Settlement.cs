@@ -6,7 +6,7 @@ public class Settlement {
 
     public Vector2 Center, Size;
 
-    GameObject BuildingBP;
+    AreaSetting setting;
     GameObject Root;
 
     Vector3 scale;
@@ -14,14 +14,14 @@ public class Settlement {
 
     public List<Parcel> parcels;
     public List<GameObject> Buildings;
-
-    public Settlement(Vector2 center, Vector2 size, GameObject buildingBP, GameObject root, Vector3 _scale)
+    
+    public Settlement(Vector2 center, AreaSetting setting, GameObject root, Vector3 _scale)
     {
         Center = center;
-        Size = size;
+        Size = setting.Size;
         scale = _scale;
 
-        BuildingBP = buildingBP;
+        this.setting = setting;
         Root = root;
 
         Parcel parcel = new Parcel(Center, Size);
@@ -30,7 +30,7 @@ public class Settlement {
 
         rotation = Random.Range(0f, 90f);
 
-        GenerateParcels(Random.Range(4, 10));
+        GenerateParcels(Random.Range((int)(setting.targetNumber * 0.7f), setting.targetNumber));
         GenerateBuildings();
     }
 
@@ -143,16 +143,15 @@ public class Settlement {
                     if (hit.point.y < lowestPoint.y)
                         lowestPoint = hit.point; 
                 }
-
             }
 
-            GameObject obj = GameObject.Instantiate(BuildingBP);
+            GameObject obj = GameObject.Instantiate(setting.GetRandomObject());
 
             obj.transform.position = new Vector3(startPoint.x, lowestPoint.y, startPoint.z);
 
             obj.transform.SetParent(Root.transform, true);
             obj.transform.Rotate(0, rotation, 0);
-            obj.transform.localScale = new Vector3(0.2f + 0.5f * p.Size.x / Size.x, 0.8f, 0.2f + 0.5f * p.Size.y / Size.y);
+            obj.transform.localScale = new Vector3(0.3f + p.Size.x / Size.x, 1f, 0.3f + p.Size.y / Size.y);
 
         }
     }
