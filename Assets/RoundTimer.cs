@@ -37,8 +37,7 @@ public class RoundTimer : MonoBehaviour
 
             SetTime(totalTimeSeconds);
         }
-
-
+        
         _gameoverScreen.Init();
     }
 
@@ -53,5 +52,10 @@ public class RoundTimer : MonoBehaviour
         string secondstext = seconds < 10 ? "0" + seconds.ToString() : seconds.ToString();
 
         _text.text = "Zeit: " + minutesText + ":" + secondstext;
+    }
+
+    public void StopRound()
+    {
+        _gameoverScreen.Init("Wasser ist b�se!");
     }
 }

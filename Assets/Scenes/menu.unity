@@ -2439,7 +2439,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isValley: 0
   seed: 0
-  MinutesOfRound: 0
+  MinutesOfRound: 5
   SecondsOfRound: 0
 --- !u!4 &1629776915
 Transform:

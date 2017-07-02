@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 
     public int seed = 0;
 
-    public int MinutesOfRound = 0;
+    public int MinutesOfRound = 5;
     public int SecondsOfRound = 0;
 
     public void RandomizeSeed()

@@ -20,12 +20,17 @@ public class GameOverScreen : MonoBehaviour
     private Button _nextButton;
     
 
-    public void SetPoints(int totalPoints)
+    public void SetPoints(int totalPoints, string addText)
     {
         _pointsText.text = "- Du hast " + totalPoints.ToString() + " Punkte erspielt! -";
+
+        if(addText != null && addText.Length > 0)
+        {
+            _pointsText.text += "\n" + addText;
+        }
     }
 
-    public void Init()
+    public void Init(string additionalText = "")
     {
         _repeatButton.onClick.AddListener(OnRepeat);
         _mainMenuButton.onClick.AddListener(OnMainMenu);
@@ -33,8 +38,8 @@ public class GameOverScreen : MonoBehaviour
 
         gameObject.SetActive(true);
         Time.timeScale = 0.0f;
-        
-        SetPoints((int)_pointsObservable.Value);
+
+        SetPoints((int)_pointsObservable.Value, additionalText);
     }
 
     private void OnButton()
