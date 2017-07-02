@@ -213,6 +213,8 @@ MonoBehaviour:
   Scene: {fileID: 927816968}
   Button: {fileID: 1425752683}
   Toggle: {fileID: 459516968}
+  Minutes: {fileID: 656623071}
+  Seconds: {fileID: 1136511533}
 --- !u!4 &138481165
 Transform:
   m_ObjectHideFlags: 0
@@ -2437,6 +2439,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isValley: 0
   seed: 0
+  MinutesOfRound: 0
+  SecondsOfRound: 0
 --- !u!4 &1629776915
 Transform:
   m_ObjectHideFlags: 0

@@ -23,6 +23,8 @@ public class MenuGenerator : MonoBehaviour
         if(Scene)
         {
 	        Scene.text = Scene.GetComponentsInChildren<Text>().First(t => t.name == "Placeholder").text;
+            Minutes.text = Minutes.GetComponentsInChildren<Text>().First(t => t.name == "Placeholder").text;
+            Seconds.text = Seconds.GetComponentsInChildren<Text>().First(t => t.name == "Placeholder").text;
         }
     }
 
