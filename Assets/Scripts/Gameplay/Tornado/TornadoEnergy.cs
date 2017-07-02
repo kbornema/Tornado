@@ -16,7 +16,7 @@ public class TornadoEnergy : MonoBehaviour
 
     private void Awake()
     {
-        _energy = _energyMax;
+        _energy = 0.0f;
     }
 
     public void AddEnergy(float delta)

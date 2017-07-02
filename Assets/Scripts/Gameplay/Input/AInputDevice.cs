@@ -35,10 +35,6 @@ public abstract class AInputDevice
 
                 Vector3 moveDir = (forward * input.y + right * input.x) * _movementSpeed * deltaTime;
 
-                //float rotation = input.x * _rotationSpeed;
-
-                //_tornado.Rotate(0.0f, rotation, 0.0f, ForceMode.Impulse);
-
                 _tornado.AddForce(moveDir, ForceMode.Impulse);
             }
         }
