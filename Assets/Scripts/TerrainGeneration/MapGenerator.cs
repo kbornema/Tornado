@@ -32,23 +32,16 @@ public class MapGenerator : MonoBehaviour
 
     public MapDisplay display;
 
-    private MenuGenerator menuInfo;
+    //private MenuGenerator menuInfo;
 
     void Start()
     {
-        //menuInfo = MenuGenerator.Instance;  // FindObjectOfType<MenuGenerator>();
+        seed = GameManager.Instance.seed;
 
-        if (menuInfo != null)
-        {
-            seed = GameManager.Instance.seed; // menuInfo.SelectedSeed;
+        bool isValley = GameManager.Instance.isValley;
 
-            bool isValley = GameManager.Instance.isValley;
-
-            if (!isValley)
-                HillZoneMax = HillZoneMax * -1;
-
-            //display.MeshFilter.gameObject.transform.localScale = new Vector3(menuInfo.SelectedScaleX, menuInfo.SelectedScaleY, menuInfo.SelectedScaleZ);
-        }
+        if (!isValley)
+            HillZoneMax = HillZoneMax * -1;
 
         GenerateMap();
 

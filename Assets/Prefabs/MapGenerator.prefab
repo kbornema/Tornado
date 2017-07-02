@@ -495,8 +495,8 @@ MonoBehaviour:
   ObjectRoot: {fileID: 1480119488791598}
   Mesh: {fileID: 1772369567893616}
   MapGenerator: {fileID: 1354840383163718}
-  maxHeight: -7
-  minHeight: -10
+  maxHeight: -4
+  minHeight: -7
   SettlementNumeber: 36
   settings:
   - area: 0

@@ -91,6 +91,7 @@ public class GameCamera : MonoBehaviour
 
     public void Rumble(float power, float time)
     {
+        /*
         _rumbleTimeMax = Mathf.Max(_rumbleTimeMax, time);
         _rumblePower = Mathf.Max(power, _rumblePower);
         _curRumbleTime = 0.0f;
@@ -99,6 +100,7 @@ public class GameCamera : MonoBehaviour
         {
             StartCoroutine(RumbleRoutine());
         }
+         * */
     }
 
     private IEnumerator RumbleRoutine()
