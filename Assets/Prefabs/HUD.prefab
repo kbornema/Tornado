@@ -1477,7 +1477,7 @@ MonoBehaviour:
     Reached: 0
     NumberOfPoints: 1
     Observable: {fileID: 114379378762364516}
-    ValueLargerThan: 0
+    ValueLargerThan: 1
 --- !u!114 &114596143985686992
 MonoBehaviour:
   m_ObjectHideFlags: 1
