@@ -1594,6 +1594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pointsOnDestroy: 100
+  _energyOnDestroy: 5
   _health: 100
   _curHealth: 0
   _myBody: {fileID: 54524860978476730}

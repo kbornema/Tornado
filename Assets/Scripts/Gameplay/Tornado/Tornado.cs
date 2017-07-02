@@ -29,8 +29,8 @@ public class Tornado : MonoBehaviour
     private CharacterController _characterController;
     private Vector3 _characterControllerMovement;
 
-    [SerializeField, Range(0.0f, 1.0f)]
-    private float _curConfPercent = 0.0f;
+    //[SerializeField, Range(0.0f, 1.0f)]
+    //private float _curConfPercent = 0.0f;
 
     [SerializeField]
     private Rigidbody _tornadoRigidbody;
@@ -55,7 +55,7 @@ public class Tornado : MonoBehaviour
     {
         percent = Mathf.Clamp(percent, 0.0f, 1.0f);
 
-        _curConfPercent = percent;
+        //_curConfPercent = percent;
         _configurationCurrent = TornadoConf.Interpolate(_configurationMin, _configurationMax, percent);
 
         _attractionCollider.center = new Vector3(0.0f, GetCenterHeight(false), 0.0f);
