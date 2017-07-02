@@ -27,7 +27,7 @@ public class RoundTimer : MonoBehaviour
         if (_gameoverScreen.gameObject.activeSelf)
             _gameoverScreen.gameObject.SetActive(false);
         
-        StartCoroutine(RoundTimerRoutine(_roundSeconds + _roundMinute * 60));
+        StartCoroutine(RoundTimerRoutine(GenerationSettings.Instance.SecondsOfRound + GenerationSettings.Instance.MinutesOfRound * 60));
     }
 	
 	private IEnumerator RoundTimerRoutine(int totalTimeSeconds)

@@ -13,6 +13,9 @@ public class MenuGenerator : MonoBehaviour
     public Button Button;
     public Toggle Toggle;
 
+    public InputField Minutes;
+    public InputField Seconds;
+
 
 	// Use this for initialization
 	void Start () 
@@ -20,6 +23,8 @@ public class MenuGenerator : MonoBehaviour
         if(Scene)
         {
 	        Scene.text = Scene.GetComponentsInChildren<Text>().First(t => t.name == "Placeholder").text;
+            Minutes.text = Minutes.GetComponentsInChildren<Text>().First(t => t.name == "Placeholder").text;
+            Seconds.text = Seconds.GetComponentsInChildren<Text>().First(t => t.name == "Placeholder").text;
         }
     }
 
@@ -37,8 +42,18 @@ public class MenuGenerator : MonoBehaviour
         if(Toggle)
             isValley = Toggle.isOn;
 
-        GameManager.Instance.seed = selectedSeed;
-        GameManager.Instance.isValley = isValley;
+
+        int minutes = 5;
+        int.TryParse(Minutes.text, out minutes);
+
+        int seconds = 0;
+        int.TryParse(Seconds.text, out seconds);
+
+        GenerationSettings.Instance.MinutesOfRound = minutes;
+        GenerationSettings.Instance.SecondsOfRound = seconds;
+
+        GenerationSettings.Instance.seed = selectedSeed;
+        GenerationSettings.Instance.isValley = isValley;
 
         if (string.IsNullOrEmpty(Scene.text))
         {
