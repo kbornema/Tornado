@@ -109,8 +109,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e86d8ee3487c714189dda35e593cf74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Scale: {x: 0.5, y: 0.5, z: 0.5}
-  HouseBP: {fileID: 1765467988355710, guid: 007630746626df14e842150473cabbdf, type: 2}
+  Scale: {x: 0.25, y: 0.25, z: 0.25}
+  HouseBP: {fileID: 1356580672068002, guid: a8003903db1b7124db3d3a31ac76aca6, type: 2}
   ObjectRoot: {fileID: 1724013169674228}
   Mesh: {fileID: 0}
   MapGenerator: {fileID: 0}

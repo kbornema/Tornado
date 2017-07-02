@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class ObjectGenerator : MonoBehaviour {
 
+    enum Areas
+    {
+        City,
+        Town,
+        Village,
+        Woods, 
+        Stones,
+    }
+
     public Vector3 Scale;
 
     public GameObject HouseBP;
@@ -14,13 +23,14 @@ public class ObjectGenerator : MonoBehaviour {
     Mesh mesh;
     MapGenerator mapGen;
 
-
     List<GameObject> objects;
 
 	// Use this for initialization
 	void Start () {
 
         objects = new List<GameObject>();
+
+        GenerateObjects();
 	}
 	
 	// Update is called once per frame
@@ -46,6 +56,8 @@ public class ObjectGenerator : MonoBehaviour {
     {
         for (int j = ObjectRoot.transform.childCount - 1; j >= 0; j--)
         {
+            for (int i = 0; i < ObjectRoot.transform.GetChild(j).childCount; i++)
+                DestroyImmediate(ObjectRoot.transform.GetChild(j).GetChild(i).gameObject);
             DestroyImmediate(ObjectRoot.transform.GetChild(j).gameObject);
         }
 
@@ -65,18 +77,8 @@ public class ObjectGenerator : MonoBehaviour {
             while (vertexPos2D.magnitude > mapGen.SaveZoneRadius);
 
             vertexPos = Mesh.transform.TransformPoint(vertexPos);
-            /*
-                        GameObject obj = Instantiate(HouseBP);
 
-                        obj.transform.localScale = new Vector3(obj.transform.localScale.x * Scale.x, obj.transform.localScale.y * Scale.y, obj.transform.localScale.z * Scale.z);
-                        obj.transform.position = vertexPos;
-
-                        obj.transform.parent = ObjectRoot.transform;
-
-                        objects.Add(obj);
-            */
-
-            Settlement settlement = new Settlement(new Vector2(vertexPos.x, vertexPos.z), new Vector2(10, 8), HouseBP, ObjectRoot);
+            Settlement settlement = new Settlement(new Vector2(vertexPos.x, vertexPos.z), new Vector2(10, 8), HouseBP, ObjectRoot, Scale);
         }
     }
 }
