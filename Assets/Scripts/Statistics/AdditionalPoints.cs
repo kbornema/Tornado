@@ -8,13 +8,13 @@ public class AdditionalPoints : MonoBehaviour
 
     private Text _text;
     private RectTransform _rectPosition;
-    private float _lastPoints;
     private float _additionalPoints;
     private float _animationProgress;
     public Vector2 _startPosition;
     private float _pointMultiplier;
 
     public StatisticsObservable PointObservable;
+    public StatisticsObservable CollectablePointsObservable;
 
     public AnimationCurve BlowUpCurve;
     public AnimationCurve MoveUpurve;
@@ -25,7 +25,6 @@ public class AdditionalPoints : MonoBehaviour
     void Start()
     {
         _text = this.GetComponent<Text>();
-        _lastPoints = 0;
         _additionalPoints = 0;
         _rectPosition = _text.gameObject.GetComponent<RectTransform>();
         _startPosition = _text.gameObject.GetComponent<RectTransform>().anchoredPosition;
@@ -38,13 +37,24 @@ public class AdditionalPoints : MonoBehaviour
     void Update()
     {
 
-        if (_lastPoints != PointObservable.Value)
+        if (CollectablePointsObservable.pairs.Count > 0)
         {
-            _additionalPoints += PointObservable.Value - _lastPoints;
-            _lastPoints = PointObservable.Value;
-            StartCoroutine(PointShaking());
-        }
 
+ 
+            for (int i = CollectablePointsObservable.pairs.Count - 1; i >= 0; i--)
+            {
+                if (CollectablePointsObservable.pairs[i].name == "AP")
+                {
+                    PointObservable.Value += (int)CollectablePointsObservable.pairs[i].value;
+                    _additionalPoints += (int)CollectablePointsObservable.pairs[i].value;
+                    CollectablePointsObservable.pairs.RemoveAt(i);
+                    StartCoroutine(PointShaking());
+                }
+
+            }
+
+        }
+        
         if (_additionalPoints == 0)
             _text.text = " ";
 
@@ -56,12 +66,11 @@ public class AdditionalPoints : MonoBehaviour
         if (_animationProgress > 1)
         {
             this.transform.parent.GetComponent<MenuPoints>().SetAdditionalPoints( (_additionalPoints* _pointMultiplier) - _additionalPoints);
-            _lastPoints = PointObservable.Value;
             _additionalPoints = 0;
             _animationProgress = 0;
             _pointMultiplier = 0;
         }
-            
+
     }
 
     public IEnumerator PointShaking()

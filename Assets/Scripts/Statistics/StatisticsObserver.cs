@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Xml.XPath;
+
 using UnityEngine;
 
 public class StatisticsObserver : MonoBehaviour
@@ -14,6 +16,7 @@ public class StatisticsObserver : MonoBehaviour
     public StatisticsObservable numberOfThrownObject;
     public StatisticsObservable numberOfCollectObstacle;
     public StatisticsObservable points;
+    public StatisticsObservable pointsToAdd;
 
     public StatisticsObservable numberOfMaximumObstaclesInTornado;
 
@@ -29,12 +32,21 @@ public class StatisticsObserver : MonoBehaviour
             Statistics.Damage += Statistics_Damage;
             Statistics.TimeTornadoBigMode += Statistics_TimeTornadoBigMode;
             Statistics.DistanceThrown += Statistics_DistanceThrown;
-            Statistics.CollectPoints += Statistics_CollectPoints;
+            Statistics.CollectedPoints += StatisticsCollectedPoints;
+            Statistics.PointsToAdd += Statistics_PointsToAdd;
 
             Statistics.NumberOfObstacleInTornado += Statistics_NumberOfObstacleInTornado;
     }
 
-    private void Statistics_CollectPoints(string code, float value)
+    private void Statistics_PointsToAdd(string code, float value)
+    {
+        ObservablePair pair = new ObservablePair();
+        pair.value = value;
+        pair.name = code;
+        pointsToAdd.pairs.Add(pair);
+    }
+
+    private void StatisticsCollectedPoints(string code, float value)
     {
         points.Value += value;
     }
