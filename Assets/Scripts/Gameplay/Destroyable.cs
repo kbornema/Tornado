@@ -68,6 +68,7 @@ public class Destroyable : MonoBehaviour
         _curHealth -= dmg;
 
         Statistics.NotifyDamage("", dmg);
+        Statistics.NotifyCollectPoints("DP", dmg);
 
         _rumblePower = dmg * DMG_RUMBLE_SCALE;
         _rumbleTime = 0.1f;
@@ -85,7 +86,7 @@ public class Destroyable : MonoBehaviour
         if (!_dead && _curHealth <= 0.0f)
         {
             _dead = true;
-            Statistics.NotifyCollectPoints("", _pointsOnDestroy);
+            Statistics.NotifyCollectPoints("AP", _pointsOnDestroy);
 
             switch (transform.tag)
             {

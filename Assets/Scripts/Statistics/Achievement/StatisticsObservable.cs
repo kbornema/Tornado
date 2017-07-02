@@ -5,7 +5,8 @@ using UnityEngine;
 public class StatisticsObservable : MonoBehaviour
 {
 
-    public float Value = 0;
+    public float  Value = 0;
+    public List<ObservablePair> pairs = new List<ObservablePair>();
 
     public StatisticsObservable(float val)
     {
@@ -15,4 +16,10 @@ public class StatisticsObservable : MonoBehaviour
     {
         Value = 0;
     }
+}
+
+public struct ObservablePair
+{
+    public string name;
+    public float value;
 }

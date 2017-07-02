@@ -11,7 +11,7 @@ public static class Statistics {
     public delegate void StateInformation(string code, float value);
 
 
-    public static event CountInformation CollectPoints;
+    public static event CountInformation CollectedPoints;
     public static event CountInformation CollectObstacle;
     public static event CountInformation ThrowObject;
     public static event CountInformation DestroyObject;
@@ -20,13 +20,20 @@ public static class Statistics {
     public static event CountInformation Damage;
     public static event CountInformation TimeTornadoBigMode;
     public static event CountInformation DistanceThrown;
+    public static event CountInformation PointsToAdd;
 
     public static event StateInformation NumberOfObstacleInTornado;
 
 
     public static void NotifyCollectPoints(string code, float value)
     {
-        if (CollectPoints != null) CollectPoints.Invoke(code, value);
+        if (PointsToAdd != null) PointsToAdd.Invoke(code, value);
+    }
+    public static void 
+        
+        Points(string code, float value)
+    {
+        if (CollectedPoints != null) CollectedPoints.Invoke(code, value);
     }
     public static void NotifyCollectObstacle(string code, float value)
     {

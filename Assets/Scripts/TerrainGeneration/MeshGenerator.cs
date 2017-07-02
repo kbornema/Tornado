@@ -29,7 +29,6 @@ public static class MeshGenerator {
                 }
 
                 vertexIndex++;
-
             }
         }
 
