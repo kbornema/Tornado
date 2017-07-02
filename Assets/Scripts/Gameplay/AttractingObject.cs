@@ -29,6 +29,12 @@ public class AttractingObject : MonoBehaviour
     [SerializeField]
     private float _destroyScale = 0.5f;
 
+    [SerializeField]
+    private float _maxDealingDmg = 100.0f; 
+
+
+    private float _totalCausedDmg;
+
     private Vector3 _startScale;
 
     private void Reset()
@@ -66,6 +72,9 @@ public class AttractingObject : MonoBehaviour
 
         else if(state == State.Free)
         {
+            if (gameObject == null)
+                return;
+
             gameObject.layer = LayerMask.NameToLayer("FreeObstacle");
             _rigidBody.useGravity = true;
             transform.localScale = _startScale * _destroyScale;
@@ -140,7 +149,14 @@ public class AttractingObject : MonoBehaviour
                 scale = 0.5f;
 
             float damage = _rigidBody.velocity.magnitude * _dpsVelocity * Time.fixedDeltaTime * scale;
+            _totalCausedDmg += damage;
+
             d.ReceiveDamage(damage, null);
+
+            if(_totalCausedDmg >= _maxDealingDmg)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 

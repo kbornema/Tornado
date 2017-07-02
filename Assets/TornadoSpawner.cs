@@ -10,7 +10,8 @@ public class TornadoSpawner : MonoBehaviour {
     Mesh mesh;
 
 	// Use this for initialization
-	void Start () {
+	void Start () 
+    {
         mesh = Mesh.GetComponent<MeshCollider>().sharedMesh;
         
 
@@ -19,7 +20,7 @@ public class TornadoSpawner : MonoBehaviour {
         foreach(RaycastHit r in hits)
         {
             if (r.collider.gameObject.tag == "Mesh")
-                Tornado.transform.position = r.point + Vector3.up * 3f;
+                Tornado.transform.position = r.point + Vector3.up * 2.0f;
         }
 	}
 }

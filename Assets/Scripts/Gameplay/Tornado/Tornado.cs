@@ -6,6 +6,8 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class Tornado : MonoBehaviour 
 {
+    private const int MAX_ATTRACTING_OBJECTS = 100;
+
     [SerializeField]
     private TornadoSegment[] _segments;
     [SerializeField]
@@ -241,8 +243,14 @@ public class Tornado : MonoBehaviour
         d.ReceiveDamage(_configurationCurrent._damagePerSecond * Time.deltaTime, this);
     }
 
-    public void AddAttractedObject(AttractingObject obj)
+    public bool AddAttractedObject(AttractingObject obj)
     {
+        if (_attractedGameObjects.Count >= MAX_ATTRACTING_OBJECTS)
+        {
+            Destroy(obj.gameObject);
+            return false;
+        }
+
         Debug.Assert(obj.CurrentState != AttractingObject.State.Attracted);
 
         obj.SetState(AttractingObject.State.Attracted);
@@ -250,6 +258,8 @@ public class Tornado : MonoBehaviour
         obj.SetTornadoScale(transform.localScale.y);
         
         _attractedGameObjects.Add(obj);
+
+        return false;
     }
 
     public void ReleaseAllObectsForward()
@@ -304,8 +314,9 @@ public class Tornado : MonoBehaviour
     private IEnumerator UnignoreCollision(CapsuleCollider _collider, Collider collider)
     {
         yield return new WaitForSeconds(0.5f);
-
-        Physics.IgnoreCollision(_collider, collider, false);
+        
+        if (_collider != null && collider != null)
+            Physics.IgnoreCollision(_collider, collider, false);
     }
 
     [System.Serializable]

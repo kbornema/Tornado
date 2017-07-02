@@ -1514,6 +1514,7 @@ MonoBehaviour:
   _myCollider: {fileID: 64968292310502554}
   _currentState: 0
   _destroyScale: 0.5
+  _maxDealingDmg: 25
 --- !u!114 &114044687914338860
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1531,6 +1532,7 @@ MonoBehaviour:
   _myCollider: {fileID: 64897161258314668}
   _currentState: 0
   _destroyScale: 0.5
+  _maxDealingDmg: 20
 --- !u!114 &114129014207019664
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1548,6 +1550,7 @@ MonoBehaviour:
   _myCollider: {fileID: 64951522234062570}
   _currentState: 0
   _destroyScale: 0.5
+  _maxDealingDmg: 25
 --- !u!114 &114190821537607116
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1565,6 +1568,7 @@ MonoBehaviour:
   _myCollider: {fileID: 64141488805939744}
   _currentState: 0
   _destroyScale: 0.5
+  _maxDealingDmg: 20
 --- !u!114 &114248096292168020
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1582,6 +1586,7 @@ MonoBehaviour:
   _myCollider: {fileID: 64191483006996196}
   _currentState: 0
   _destroyScale: 0.5
+  _maxDealingDmg: 25
 --- !u!114 &114269084216813422
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1615,6 +1620,7 @@ MonoBehaviour:
   _myCollider: {fileID: 64834464936495768}
   _currentState: 0
   _destroyScale: 0.5
+  _maxDealingDmg: 25
 --- !u!114 &114386955623991178
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1632,6 +1638,7 @@ MonoBehaviour:
   _myCollider: {fileID: 64124894265947786}
   _currentState: 0
   _destroyScale: 0.5
+  _maxDealingDmg: 20
 --- !u!114 &114555469899691564
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1649,6 +1656,7 @@ MonoBehaviour:
   _myCollider: {fileID: 64779707370839276}
   _currentState: 0
   _destroyScale: 0.5
+  _maxDealingDmg: 25
 --- !u!114 &114664530453292156
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1666,6 +1674,7 @@ MonoBehaviour:
   _myCollider: {fileID: 64223239006189254}
   _currentState: 0
   _destroyScale: 0.5
+  _maxDealingDmg: 20
 --- !u!114 &114669093009878946
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1683,6 +1692,7 @@ MonoBehaviour:
   _myCollider: {fileID: 64572885637050156}
   _currentState: 0
   _destroyScale: 0.5
+  _maxDealingDmg: 25
 --- !u!114 &114713131531274924
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1699,7 +1709,8 @@ MonoBehaviour:
   _dpsVelocity: 10
   _myCollider: {fileID: 64711842600608670}
   _currentState: 0
-  _destroyScale: 0.5
+  _destroyScale: 0.75
+  _maxDealingDmg: 100
 --- !u!114 &114743665017016142
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1717,6 +1728,7 @@ MonoBehaviour:
   _myCollider: {fileID: 64614669322735472}
   _currentState: 0
   _destroyScale: 0.5
+  _maxDealingDmg: 25
 --- !u!114 &114839155136243204
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1734,6 +1746,7 @@ MonoBehaviour:
   _myCollider: {fileID: 64682933888071230}
   _currentState: 0
   _destroyScale: 0.5
+  _maxDealingDmg: 20
 --- !u!114 &114863137452912822
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1751,3 +1764,4 @@ MonoBehaviour:
   _myCollider: {fileID: 64067687385658906}
   _currentState: 0
   _destroyScale: 0.5
+  _maxDealingDmg: 20

@@ -121,7 +121,11 @@ public class Destroyable : MonoBehaviour
 
         if(tornado)
         {
-            tornado.AddAttractedObject(curDestroyObj);
+            if(!tornado.AddAttractedObject(curDestroyObj))
+            {
+                curDestroyObj.SetState(AttractingObject.State.Free);
+                curDestroyObj.AddRandomTorque();
+            }
         }
 
         else
